@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вики — Психолог Вероника Косцова</title>
+    <meta name="description" content="Короткие статьи о психических расстройствах и особенностях простым языком — чтобы разобраться в теме перед разговором с психологом Вероникой Косцовой.">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="img/new_icons/icon-32.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="img/new_icons/icon-16.png" type="image/png" sizes="16x16">
+    <link rel="apple-touch-icon" href="img/new_icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#007AFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="В. Косцова">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/wiki.css">
+    <!-- pwa-install.css и accessibility.css не нужны для первой отрисовки (баннер установки и панель спецвозможностей появляются позже и только по действию), поэтому грузим их без блокировки рендера (preload+swap). Стили уже применяются, когда пользователь успевает открыть панель/увидеть плашку. -->
+    <link rel="stylesheet" href="css/pwa-install.css">
+    <link rel="stylesheet" href="css/accessibility.css">
+    <noscript><link rel="stylesheet" href="css/pwa-install.css"></noscript>
+    <noscript><link rel="stylesheet" href="css/accessibility.css"></noscript>
+    <link rel="stylesheet" href="css/tooltip.css">
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ШАПКА
+    ══════════════════════════════════════════════════════════════ -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo-slot">
+                <img src="img/logo.svg" alt="Психолог Вероника Косцова" class="logo-placeholder">
+                <span class="logo-text">Психолог Вероника Косцова</span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="index.html">Главная</a>
+                <a href="wiki.html" class="active">Вики</a>
+                <!--<a href="index.html#specialist">Специалисты</a>-->
+                <a href="tests.html">Тесты</a>
+                <a href="community.html">Сообщество</a>
+                <!--<a href="#">О нас</a>-->
+            </nav>
+
+            <div class="header-actions">
+                <a href="auth.html" class="btn btn-ghost auth-guest">Войти</a>
+                <a href="reg.html" class="btn btn-primary auth-guest">Регистрация</a>
+
+                <div class="profile-chip auth-user">
+                    <div class="profile-avatar" data-profile-avatar></div>
+                    <span class="profile-name" data-profile-name></span>
+                </div>
+
+                <!-- Кнопка сообщений: показывает число непрочитанных сообщений чата -->
+                <div class="notif-bell-wrapper auth-user" id="notifBellWrapper">
+                    <button class="btn btn-ghost icon-btn notif-bell" id="notifBellBtn" aria-label="Сообщения" title="Сообщения">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </button>
+                    <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+                </div>
+
+                <!-- Техподдержка: доступна любому авторизованному пользователю
+                     независимо от роли (клиент/специалист). Ведёт в общий
+                     список диалогов chat.html — открывает диалог с админом
+                     (?contact=admin), отдельно от диалога с психологом. -->
+                <div class="notif-bell-wrapper auth-user" id="supportBellWrapper">
+                    <a href="chat.html?contact=admin" class="btn btn-ghost icon-btn notif-bell" id="supportBellBtn" aria-label="Техподдержка" title="Техподдержка">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 15v-1a3 3 0 1 0-3-3"></path><circle cx="12" cy="18" r=".6" fill="currentColor" stroke="none"></circle></svg>
+                    </a>
+                    <span class="notif-badge" id="supportBadge" style="display:none;">0</span>
+                </div>
+
+                <a href="settings.html" class="btn btn-ghost icon-btn settings-link" aria-label="Настройки" title="Настройки"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></a>
+                <button class="btn btn-ghost auth-user logout-trigger">Выйти</button>
+
+                <button class="burger" id="burgerBtn" aria-label="Открыть меню"><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-profile auth-user">
+            <div class="profile-avatar" data-profile-avatar></div>
+            <span class="profile-name" data-profile-name></span>
+
+            <!-- Кнопка сообщений (мобильная версия) -->
+            <div class="notif-bell-wrapper" id="notifBellWrapperMobile">
+                <button class="btn btn-ghost icon-btn notif-bell" id="notifBellBtnMobile" aria-label="Сообщения" title="Сообщения">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                </button>
+                <span class="notif-badge" id="notifBadgeMobile" style="display:none;">0</span>
+            </div>
+
+            <div class="notif-bell-wrapper" id="supportBellWrapperMobile">
+                <a href="chat.html?contact=admin" class="btn btn-ghost icon-btn notif-bell" id="supportBellBtnMobile" aria-label="Техподдержка" title="Техподдержка">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 15v-1a3 3 0 1 0-3-3"></path><circle cx="12" cy="18" r=".6" fill="currentColor" stroke="none"></circle></svg>
+                </a>
+                <span class="notif-badge" id="supportBadgeMobile" style="display:none;">0</span>
+            </div>
+        </div>
+
+        <a href="index.html">Главная</a>
+        <a href="wiki.html" class="active">Вики</a>
+        <!--<a href="index.html#specialist">Специалисты</a>-->
+        <a href="tests.html">Тесты</a>
+        <a href="community.html">Сообщество</a>
+        <!--<a href="#">О нас</a>-->
+
+        <div class="mobile-actions auth-guest">
+            <a href="auth.html" class="btn btn-ghost" style="border:1.5px solid var(--border);">Войти</a>
+            <a href="reg.html" class="btn btn-primary">Регистрация</a>
+        </div>
+        <div class="mobile-actions auth-user">
+            <a href="settings.html" class="btn btn-ghost" style="border:1.5px solid var(--border);">Настройки</a>
+            <button class="btn btn-ghost logout-trigger" style="border:1.5px solid var(--border);">Выйти</button>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ЗАГОЛОВОК + ПОИСК
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="wiki-hero">
+        <h1>Вики</h1>
+        <p>Короткие и понятные статьи о психических расстройствах и особенностях — без сложных терминов, чтобы разобраться в теме перед разговором со специалистом.</p>
+
+        <div class="search-wrap">
+            <div class="search-box" id="searchBox">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="searchInput" placeholder="Найти статью, например «трев»…" autocomplete="off">
+                <button class="search-clear" id="searchClear" aria-label="Очистить">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="suggest-panel" id="suggestPanel"></div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         СЕТКА КАРТОЧЕК
+    ══════════════════════════════════════════════════════════════ -->
+    <main class="wiki-main">
+        <div class="results-count" id="resultsCount"></div>
+        <div class="wiki-grid" id="wikiGrid"></div>
+        <div class="empty-state" id="emptyState">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <p>Ничего не нашлось. Попробуйте другой запрос.</p>
+        </div>
+        <nav class="pagination" id="pagination" aria-label="Навигация по страницам"></nav>
+    </main>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ПОДВАЛ
+    ══════════════════════════════════════════════════════════════ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <a href="index.html" class="logo-slot">
+                    <img src="img/logo.svg" alt="Психолог Вероника Косцова" class="logo-placeholder">
+                    <span class="logo-text">Психолог Вероника Косцова</span>
+                </a>
+                <nav class="footer-nav">
+                    <a href="index.html">Главная</a>
+                    <a href="wiki.html">Вики</a>
+                    <!--<a href="index.html#specialist">Специалисты</a>-->
+                    <a href="tests.html">Тесты</a>
+                    <a href="community.html">Сообщество</a>
+                    <!--<a href="#">О нас</a>-->
+                </nav>
+                <div class="footer-social">
+                    <a href="https://vk.ru/id73127419" aria-label="ВКонтакте" title="ВКонтакте">
+                        <svg viewBox="0 0 870 547" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M476.667 546.667C176.667 546.667 6.66667 343.333 0 0H150C153.333 250 266.667 356.667 353.333 376.667V0H493.333V216.667C580 206.667 670 110 700 0H840C816.667 133.333 716.667 233.333 646.667 273.333C716.667 306.667 830 393.333 870 546.667H713.333C680 443.333 596.667 363.333 486.667 350V546.667H476.667Z" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/Veronika_psy_72" aria-label="Telegram" title="Telegram">
+                        <svg viewBox="0 0 792 657" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M705.952 590.22C719.488 548.684 782.912 134.732 790.752 53.1639C793.12 28.4599 785.312 12.0439 770.016 4.71594C751.52 -4.18006 724.128 0.267998 692.352 11.724C648.768 27.436 91.584 264.012 59.392 277.708C28.864 290.668 0 304.812 0 325.292C0 339.692 8.54401 347.788 32.096 356.204C56.608 364.94 118.336 383.66 154.784 393.708C189.888 403.404 229.856 394.988 252.256 381.068C276 366.316 550.016 182.956 569.696 166.892C589.344 150.828 605.024 171.404 588.96 187.5C572.896 203.564 384.8 386.124 360 411.404C329.888 442.092 351.264 473.9 371.456 486.636C394.528 501.164 560.448 612.46 585.44 630.316C610.432 648.172 635.776 656.268 658.976 656.268C682.176 656.268 694.4 625.708 705.952 590.22Z" />
+                        </svg>
+                    </a>
+                    <a href="https://profile.imo.im/profileshare/shr.AAAAAAAAAAAAAAAAAAAAAHKo0y8-Tk7_qgJbjzy0caawKqysRfPJaWf8jQdoz_RW" aria-label="imo" title="imo">
+                        <svg viewBox="0 0 519 517" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M260.059 0C402.682 0.000325354 518.301 115.62 518.301 258.243C518.301 400.866 402.682 516.485 260.059 516.485C201.956 516.485 148.334 497.295 105.186 464.909C94.7759 469.928 85.6849 473.026 76.2319 474.584C64.5087 476.516 52.2954 476.072 36.4135 474.076V474.075C29.6136 473.318 23.0289 469.737 17.2875 465.346C11.5293 460.942 6.5322 455.657 2.90667 451.375C-1.3072 446.398 -0.770703 439.269 3.4262 434.446C11.8865 424.725 26.7412 407.21 38.4848 390.991C38.4881 390.987 38.4903 390.981 38.4936 390.977C15.2061 352.188 1.81591 306.779 1.81585 258.243C1.81585 115.62 117.436 8.53232e-05 260.059 0ZM36.5375 473.084C37.5277 473.208 38.5035 473.326 39.4653 473.438L36.5375 473.083C36.3331 473.06 36.1285 473.036 35.9242 473.008L36.5375 473.084ZM260.059 43.4023C141.406 43.4024 45.2185 139.589 45.2182 258.242C45.2182 305.343 60.3758 348.903 86.0785 384.312L61.144 431.558C60.5105 432.759 61.6718 434.116 62.9565 433.676L114.298 416.073C152.597 451.46 203.803 473.083 260.059 473.083C378.712 473.083 474.9 376.895 474.9 258.242C474.9 139.589 378.712 43.4025 260.059 43.4023ZM3.49749 435.955C3.47523 435.985 3.45404 436.016 3.43206 436.047C3.46765 435.998 3.50315 435.948 3.53948 435.899L3.49749 435.955ZM9.55608 428.866C8.89751 429.637 8.25722 430.385 7.63714 431.106L9.55608 428.867C10.2146 428.096 10.8911 427.301 11.5834 426.484L9.55608 428.866ZM37.0532 394.638C36.6743 395.15 36.2931 395.663 35.9096 396.176L37.0532 394.639C37.4321 394.127 37.8083 393.615 38.1821 393.104L37.0532 394.638ZM123.347 217.011C130.527 217.011 136.367 222.831 136.368 230.011V312.517C136.367 319.696 130.527 325.516 123.347 325.517C116.167 325.517 110.327 319.696 110.327 312.517V230.011C110.327 222.831 116.167 217.011 123.347 217.011ZM179.769 217.011C186.25 217.011 191.639 221.755 192.626 227.959C197.384 224.816 202.838 221.9 207.878 220.863C215.385 219.319 220.19 218.789 227.645 220.872C231.585 221.974 235.987 224.732 239.372 227.181C241.071 228.41 242.528 229.572 243.56 230.426C243.954 230.752 244.287 231.035 244.547 231.259C244.853 231.035 245.165 230.809 245.482 230.582C251.092 226.57 258.391 222.183 264.991 220.86C272.678 219.32 277.595 218.79 285.226 220.868C293.064 223.003 299.195 224.77 303.311 231.93C304.873 234.646 305.431 238.537 305.613 241.686C305.704 243.271 305.701 244.691 305.675 245.715C305.662 246.226 305.643 246.641 305.627 246.927C305.623 247.004 305.618 247.073 305.615 247.131V312.517C305.614 319.696 299.794 325.516 292.615 325.517C285.435 325.516 279.615 319.696 279.615 312.517V256.5H279.594V252.232C279.594 252.102 279.543 251.984 279.461 251.896C278.479 244.455 272.112 238.712 264.403 238.712C256.694 238.712 250.327 244.455 249.344 251.896C249.263 251.984 249.212 252.102 249.212 252.232V312.517C249.212 319.696 243.371 325.516 236.192 325.517C229.04 325.516 223.217 319.741 223.171 312.601V252.232C223.171 252.102 223.12 251.984 223.039 251.896C222.056 244.455 215.689 238.712 207.98 238.712C200.271 238.712 193.904 244.455 192.921 251.896C192.84 251.984 192.79 252.103 192.789 252.232V312.517C192.789 319.696 186.948 325.516 179.769 325.517C172.59 325.516 166.749 319.696 166.748 312.517V230.011C166.749 222.831 172.59 217.011 179.769 217.011ZM375.08 217.011C401.447 217.011 422.822 241.301 422.822 271.264C422.822 301.226 401.447 325.516 375.08 325.517C348.712 325.516 327.336 301.226 327.336 271.264C327.336 241.301 348.712 217.011 375.08 217.011ZM375.079 238.712C360.697 238.712 349.038 253.286 349.038 271.264C349.038 289.241 360.697 303.815 375.079 303.815C389.461 303.815 401.121 289.241 401.121 271.264C401.12 253.286 389.461 238.712 375.079 238.712ZM123.347 182.289C130.538 182.289 136.368 188.12 136.368 195.311C136.367 202.501 130.538 208.331 123.347 208.331C116.156 208.331 110.327 202.501 110.327 195.311C110.327 188.119 116.156 182.289 123.347 182.289Z" />
+                        </svg>
+                    </a>
+                    <a href="#" id="wechatTrigger" data-wechat-id="NikaKosPsy" aria-label="WeChat" title="WeChat">
+                        <svg viewBox="0 0 646 548" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M238.497 0C356.738 0.000126285 454.879 73.3921 473.726 169.681C570.496 180.128 645.344 250.922 645.344 336.702C645.344 385.029 621.584 428.597 583.534 459.3L610.377 545.792C610.645 546.656 609.72 547.403 608.932 546.96L516.338 494.876C495.316 501.459 472.615 505.053 448.935 505.053C368.896 505.053 300.041 464.015 269.441 405.149C259.312 406.269 248.984 406.848 238.497 406.848C209.161 406.848 181.062 402.329 155.104 394.064L47.1172 466.058C46.3183 466.59 45.3012 465.799 45.6191 464.894L83.2324 357.84C32.2784 320.532 3.722e-05 265.193 0 203.424C0 91.076 106.779 0 238.497 0ZM448.934 196.409C355.956 196.409 280.583 259.22 280.583 336.701C280.583 414.182 355.956 476.993 448.934 476.993C473.871 476.993 497.542 472.472 518.832 464.364L567.505 491.218C568.058 491.523 568.701 490.997 568.511 490.395L554.467 446.011C592.774 420.295 617.284 380.884 617.284 336.701C617.284 259.22 541.911 196.409 448.934 196.409ZM238.496 28.0576C122.275 28.0577 28.0579 106.572 28.0576 203.423C28.0576 262.526 63.1444 314.799 116.906 346.569L97.9355 399.104C97.7084 399.734 98.413 400.293 98.9756 399.929L154.155 364.136C179.976 373.559 208.503 378.789 238.496 378.789C245.236 378.789 251.902 378.521 258.479 378.005C254.591 364.79 252.525 350.953 252.525 336.702C252.525 244.928 338.199 170.308 444.733 168.392C425.254 88.326 340.322 28.0576 238.496 28.0576ZM385.804 280.585C397.426 280.585 406.848 290.007 406.848 301.629C406.847 313.251 397.426 322.673 385.804 322.673C374.182 322.673 364.761 313.251 364.761 301.629C364.761 290.007 374.182 280.585 385.804 280.585ZM512.066 280.585C523.689 280.585 533.11 290.007 533.11 301.629C533.11 313.251 523.688 322.673 512.066 322.673C500.444 322.673 491.023 313.251 491.022 301.629C491.022 290.007 500.444 280.585 512.066 280.585ZM154.321 112.233C169.817 112.234 182.38 124.796 182.38 140.292C182.38 155.788 169.817 168.35 154.321 168.351C138.825 168.351 126.263 155.788 126.263 140.292C126.263 124.796 138.825 112.233 154.321 112.233ZM322.672 112.233C338.168 112.233 350.73 124.796 350.73 140.292C350.73 155.788 338.168 168.351 322.672 168.351C307.176 168.35 294.613 155.788 294.613 140.292C294.613 124.796 307.176 112.234 322.672 112.233Z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">© <span data-year>2026</span> Психолог Вероника Косцова. Пространство заботы о ментальном здоровье.</span>
+                <div class="footer-legal">
+                    <a href="privacy-policy.html">Политика конфиденциальности</a>
+                    <a href="user-agreement.html">Пользовательское соглашение</a>
+                    <a href="#">Контакты</a>
+                </div>
+            </div>
+            <div class="footer-tech">
+                Технические неполадки на сайте (не по вопросам консультаций): <a href="https://e.mail.ru/compose/?to=dev_danik2k@mail.ru&subject=Обращение%20в%20техподдержку">dev_danik2k@mail.ru</a> · <a href="https://t.me/danil2005dol" target="_blank" rel="noopener">Telegram</a>
+            </div>
+        </div>
+        <a href="https://db-ip.com">IP Geolocation by DB-IP</a>
+    </footer>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ОКНО WECHAT ID
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="wechatOverlay">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <svg viewBox="0 0 646 548" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M238.497 0C356.738 0.000126285 454.879 73.3921 473.726 169.681C570.496 180.128 645.344 250.922 645.344 336.702C645.344 385.029 621.584 428.597 583.534 459.3L610.377 545.792C610.645 546.656 609.72 547.403 608.932 546.96L516.338 494.876C495.316 501.459 472.615 505.053 448.935 505.053C368.896 505.053 300.041 464.015 269.441 405.149C259.312 406.269 248.984 406.848 238.497 406.848C209.161 406.848 181.062 402.329 155.104 394.064L47.1172 466.058C46.3183 466.59 45.3012 465.799 45.6191 464.894L83.2324 357.84C32.2784 320.532 3.722e-05 265.193 0 203.424C0 91.076 106.779 0 238.497 0ZM448.934 196.409C355.956 196.409 280.583 259.22 280.583 336.701C280.583 414.182 355.956 476.993 448.934 476.993C473.871 476.993 497.542 472.472 518.832 464.364L567.505 491.218C568.058 491.523 568.701 490.997 568.511 490.395L554.467 446.011C592.774 420.295 617.284 380.884 617.284 336.701C617.284 259.22 541.911 196.409 448.934 196.409ZM238.496 28.0576C122.275 28.0577 28.0579 106.572 28.0576 203.423C28.0576 262.526 63.1444 314.799 116.906 346.569L97.9355 399.104C97.7084 399.734 98.413 400.293 98.9756 399.929L154.155 364.136C179.976 373.559 208.503 378.789 238.496 378.789C245.236 378.789 251.902 378.521 258.479 378.005C254.591 364.79 252.525 350.953 252.525 336.702C252.525 244.928 338.199 170.308 444.733 168.392C425.254 88.326 340.322 28.0576 238.496 28.0576ZM385.804 280.585C397.426 280.585 406.848 290.007 406.848 301.629C406.847 313.251 397.426 322.673 385.804 322.673C374.182 322.673 364.761 313.251 364.761 301.629C364.761 290.007 374.182 280.585 385.804 280.585ZM512.066 280.585C523.689 280.585 533.11 290.007 533.11 301.629C533.11 313.251 523.688 322.673 512.066 322.673C500.444 322.673 491.023 313.251 491.022 301.629C491.022 290.007 500.444 280.585 512.066 280.585ZM154.321 112.233C169.817 112.234 182.38 124.796 182.38 140.292C182.38 155.788 169.817 168.35 154.321 168.351C138.825 168.351 126.263 155.788 126.263 140.292C126.263 124.796 138.825 112.233 154.321 112.233ZM322.672 112.233C338.168 112.233 350.73 124.796 350.73 140.292C350.73 155.788 338.168 168.351 322.672 168.351C307.176 168.35 294.613 155.788 294.613 140.292C294.613 124.796 307.176 112.234 322.672 112.233Z" />
+                </svg>
+            </div>
+            <h3 class="modal-title">WeChat</h3>
+            <p class="modal-text">Найдите меня в WeChat по этому ID — нажмите, чтобы скопировать, или введите его вручную в поиске приложения.</p>
+
+            <div class="wechat-id-box" id="wechatIdBox">
+                <span class="wechat-id-text" id="wechatIdText"></span>
+                <button class="wechat-copy-btn" id="wechatCopyBtn" type="button" aria-label="Скопировать ID" title="Скопировать">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+            </div>
+            <span class="wechat-copied-hint" id="wechatCopiedHint">Скопировано в буфер обмена</span>
+
+            <button class="wechat-guide-link" id="wechatGuideBtn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2 1.7-2 3.3"></path><line x1="12" y1="16.5" x2="12" y2="16.51"></line></svg>
+                Не знаю, как найти меня в WeChat — показать инструкцию
+            </button>
+
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="wechatCloseBtn" style="width:100%;">Понятно</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         ИНСТРУКЦИЯ: КАК НАЙТИ ПРОФИЛЬ В WECHAT ПО ID (галерея шагов)
+    ══════════════════════════════════════════════════════════════ -->
+    <div class="modal-overlay guide-overlay" id="wechatGuideOverlay" role="dialog" aria-modal="true" aria-label="Инструкция: как найти меня в WeChat">
+        <div class="modal-card guide-card">
+            <button class="guide-close" id="wechatGuideCloseBtn" type="button" aria-label="Закрыть инструкцию">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <h3 class="modal-title guide-title">Как найти меня в WeChat</h3>
+            <p class="modal-text guide-subtitle">Пролистайте шаги — от главного экрана WeChat до заявки в друзья</p>
+
+            <div class="guide-body">
+                <div class="guide-info">
+                    <span class="guide-step-count" id="wechatGuideCount">Шаг 1 из 7</span>
+                    <p class="guide-step-text" id="wechatGuideText"></p>
+                </div>
+
+                <div class="guide-media">
+                    <div class="guide-viewport" id="wechatGuideViewport">
+                        <button class="guide-arrow guide-arrow-prev" id="wechatGuidePrev" type="button" aria-label="Предыдущий шаг">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+
+                        <div class="guide-frame">
+                            <img class="guide-image" id="wechatGuideImage" src="" alt="Шаг инструкции WeChat">
+                        </div>
+
+                        <button class="guide-arrow guide-arrow-next" id="wechatGuideNext" type="button" aria-label="Следующий шаг">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+
+                    <div class="guide-dots" id="wechatGuideDots"></div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-ghost" id="wechatGuideBackBtn" style="border:1.5px solid var(--border);">Назад</button>
+                <button class="btn btn-primary" id="wechatGuideNextBtn">Далее</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/wiki.js"></script>
+
+    <script src="js/beta-badge.js" defer></script>
+    <script src="js/accessibility.js" defer></script>
+    <script src="js/tooltip.js" defer></script>
+    <script src="js/site-search.js" defer></script>
+    <script src="js/footer-year.js" defer></script>
+</body>
+</html>

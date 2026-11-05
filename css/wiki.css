@@ -1,0 +1,4284 @@
+@font-face {
+    font-family: 'Golos Text';
+    src: url('../fonts/GolosText-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Golos Text';
+    src: url('../fonts/GolosText-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Golos Text';
+    src: url('../fonts/GolosText-SemiBold.ttf') format('truetype');
+    font-weight: 600 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg: #F7F9FC;
+    --surface: #FFFFFF;
+    --brand: #0071ED;
+    --brand-dark: #005BB5;
+    --brand-light: #43C0FF;
+    --brand-pale: #B8DAFF;
+    --lav: #A480D8;
+    --lav-dark: #7E52BE;
+    --lav-pale: #EFE7FB;
+    --mint: #00CC93;
+    --danger: #FF3B30;
+    --danger-dark: #C50A00;
+    --text: #1D2733;
+    --text-2: #5A6B7B;
+    --text-3: #697381;
+    --border: rgba(20,30,45,.08);
+    --font: 'Golos Text',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ══════════════════════════════════════════════════════════════
+     ШАПКА (идентична главной странице)
+  ══════════════════════════════════════════════════════════════ */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: rgba(247,249,252,.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    height: 68px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-slot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: start;
+    text-decoration: none;
+    grid-column: 1;
+}
+
+.logo-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    /*background:linear-gradient(135deg,var(--brand-light),var(--lav));*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(20,30,45,.045);
+    padding: 4px;
+    border-radius: 999px;
+    justify-self: center;
+    grid-column: 2;
+}
+
+    .nav-menu a {
+        display: inline-block;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-2);
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .18s, color .18s;
+    }
+
+        .nav-menu a.active {
+            background: var(--surface);
+            color: var(--brand-dark);
+            box-shadow: 0 2px 8px rgba(20,30,45,.08);
+        }
+
+        .nav-menu a:hover:not(.active) {
+            color: var(--text);
+        }
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: end;
+    grid-column: 3;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background .18s, box-shadow .18s, transform .12s;
+}
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-2);
+}
+
+    .btn-ghost:hover {
+        background: rgba(20,30,45,.05);
+        color: var(--text);
+    }
+
+.btn-primary {
+    background: var(--brand);
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        background: var(--brand-dark);
+        box-shadow: 0 6px 18px rgba(0,122,255,.25);
+    }
+
+/* Иконка-шестерёнка "Настройки" в шапке — только для десктопа,
+     на мобильных вынесена в бургер-меню (см. .mobile-actions), иначе
+     на узких экранах элементам шапки становится тесно. */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+    .icon-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+body:not(.is-authenticated) .auth-user {
+    display: none !important;
+}
+
+body.is-authenticated .auth-guest {
+    display: none !important;
+}
+
+.profile-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px 4px 4px;
+    border-radius: 999px;
+    background: rgba(20,30,45,.045);
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: linear-gradient(135deg,var(--brand-light),var(--lav)) center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Кнопка сообщений в шапке — значок + счётчик непрочитанных
+     сообщений чата (красный кружок). Показывается только
+     авторизованным пользователям (и клиенту, и специалисту) —
+     переключается вместе с остальными .auth-user через
+     body.is-authenticated. */
+.notif-bell-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.notif-bell {
+    color: var(--text-2);
+}
+
+    .notif-bell:hover {
+        color: var(--brand);
+    }
+
+.notif-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--danger);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: 0 0 0 2px var(--surface);
+    pointer-events: none;
+}
+
+/* В мобильном меню кнопка сообщений живёт внутри .mobile-profile —
+     прижимаем её к правому краю строки с аватаром/именем. */
+.mobile-profile .notif-bell-wrapper {
+    margin-left: auto;
+}
+
+.burger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+    .burger span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: var(--text);
+        position: relative;
+        border-radius: 2px;
+        transition: background .2s;
+    }
+
+        .burger span::before, .burger span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform .25s ease, top .25s ease, opacity .2s ease;
+        }
+
+        .burger span::before {
+            top: -6px;
+        }
+
+        .burger span::after {
+            top: 6px;
+        }
+
+    .burger.open span {
+        background: transparent;
+    }
+
+        .burger.open span::before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .burger.open span::after {
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    inset: 68px 0 0 0;
+    background: var(--surface);
+    padding: 20px 24px 32px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 150;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease;
+}
+
+    .mobile-menu.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .mobile-menu a {
+        display: block;
+        width: 100%;
+        padding: 14px 4px;
+        font-size: 16px;
+        font-weight: 600; /*color:var(--text);*/
+        text-decoration: none;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+    }
+
+        .mobile-menu a.active {
+            color: var(--brand-dark);
+        }
+
+.mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+    flex-shrink: 0;
+}
+
+    .mobile-actions .btn {
+        width: 100%;
+        height: 48px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+.mobile-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 4px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+}
+
+    .mobile-profile .profile-avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .mobile-profile .profile-name {
+        font-size: 16px;
+        max-width: none;
+    }
+
+/* Брейкпоинт поднят с 860px до 1199px: полный десктопный набор шапки
+     (лого + меню + иконки авторизованного пользователя) физически не
+     помещается уже начиная с ~861px и вплоть до ~1150px — на этих
+     промежуточных ("средних") экранах .header-actions вылезал за
+     пределы viewport и появлялась горизонтальная прокрутка всей
+     страницы. Бургер-меню теперь включается раньше и гарантированно
+     не даёт шапке переполняться на любой ширине до 1200px. */
+@media (max-width:1199px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .header-actions .btn-ghost.auth-guest,
+    .header-actions .btn-primary.auth-guest {
+        display: none;
+    }
+
+    .header-actions .profile-chip {
+        display: none;
+    }
+
+    .header-actions .notif-bell-wrapper {
+        display: none;
+    }
+
+    .header-actions .settings-link {
+        display: none;
+    }
+
+    .header-actions .logout-trigger {
+        display: none;
+    }
+
+    .burger {
+        display: flex;
+    }
+
+    .mobile-menu {
+        display: flex;
+    }
+}
+
+@media (min-width:1200px) {
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+@media (max-width:480px) {
+    .logo-text {
+        display: none;
+    }
+    /* В подвале название сайта оставляем видимым и на узких экранах —
+       здесь ему ничего не мешает (в отличие от шапки), поэтому просто
+       уменьшаем размер шрифта. */
+    .footer-top .logo-text {
+        display: inline;
+        font-size: 15px;
+    }
+
+    .header-actions .btn-primary {
+        padding: 0 14px;
+        font-size: 13px;
+        height: 36px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+     ЗАГОЛОВОК СТРАНИЦЫ + ПОИСК
+  ══════════════════════════════════════════════════════════════ */
+.wiki-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 8px;
+    text-align: center;
+}
+
+    .wiki-hero h1 {
+        font-size: clamp(26px,4vw,36px);
+        font-weight: 700;
+        letter-spacing: -.6px;
+        margin-bottom: 12px;
+    }
+
+    .wiki-hero p {
+        font-size: 15.5px;
+        color: var(--text-2);
+        line-height: 1.6;
+        max-width: 620px;
+        margin: 0 auto 32px;
+    }
+
+.search-wrap {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(20,30,45,.06);
+    transition: border-color .18s, box-shadow .18s;
+}
+
+    .search-box:focus-within {
+        border-color: var(--brand);
+        box-shadow: 0 0 0 4px rgba(0,122,255,.12);
+    }
+
+    .search-box svg {
+        width: 19px;
+        height: 19px;
+        color: var(--text-3);
+        flex-shrink: 0;
+    }
+
+    .search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: none;
+        font-family: var(--font);
+        font-size: 15px;
+        color: var(--text);
+    }
+
+        .search-box input::placeholder {
+            color: var(--text-3);
+        }
+
+.search-clear {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(20,30,45,.06);
+    color: var(--text-2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+    .search-clear svg {
+        width: 12px;
+        height: 12px;
+        color: inherit;
+    }
+
+.search-box.has-value .search-clear {
+    display: flex;
+}
+
+.suggest-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 8px);
+    background: var(--surface);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(20,30,45,.14);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    z-index: 60;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity .16s ease, transform .16s ease;
+}
+
+    .suggest-panel.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+.suggest-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+}
+
+    .suggest-item:last-child {
+        border-bottom: none;
+    }
+
+    .suggest-item:hover, .suggest-item.is-active {
+        background: var(--bg);
+    }
+
+    .suggest-item b {
+        color: var(--brand-dark);
+        font-weight: 700;
+    }
+
+    .suggest-item .suggest-tag {
+        margin-left: auto;
+        font-size: 11.5px;
+        color: var(--text-3);
+        flex-shrink: 0;
+    }
+
+.suggest-empty {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--text-3);
+    text-align: center;
+}
+
+/* ══════════════════════════════════════════════════════════════
+     СЕТКА КАРТОЧЕК
+  ══════════════════════════════════════════════════════════════ */
+.wiki-main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 36px 24px 80px;
+}
+
+.results-count {
+    font-size: 13.5px;
+    color: var(--text-3);
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.wiki-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.wiki-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border-radius: 22px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 8px 24px rgba(20,30,45,.06);
+    transition: transform .2s ease, box-shadow .2s ease, outline-color .2s ease;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+a.wiki-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(20,30,45,.10);
+}
+
+.wiki-card.is-highlighted {
+    outline-color: var(--brand-pale);
+}
+
+.wiki-card.is-soon {
+    cursor: default;
+}
+
+.wiki-card.is-hidden {
+    display: none;
+}
+
+.wiki-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+    .wiki-card-icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+.wiki-card-tag {
+    display: inline-flex;
+    width: fit-content;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    padding: 4px 11px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.wiki-card h2 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.2px;
+    margin-bottom: 8px;
+}
+
+.wiki-card p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-2);
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.wiki-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-3);
+    font-weight: 600;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+}
+
+.wiki-card-cta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--brand);
+}
+
+    .wiki-card-cta svg {
+        width: 14px;
+        height: 14px;
+    }
+
+.soon-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    color: var(--text-3);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+/* цветовые варианты иконок по категориям */
+.icon-mood {
+    background: #FFF1E8;
+    color: #AF560B;
+}
+
+.icon-adhd {
+    background: #FFF8E1;
+    color: #946A0A;
+}
+
+.icon-depression {
+    background: #EAF0FF;
+    color: #3D4FC4;
+}
+
+.icon-anxiety {
+    background: #EAF3FF;
+    color: var(--brand-dark);
+}
+
+.icon-ocd {
+    background: #E9FBF4;
+    color: #09805A;
+}
+
+.icon-asd {
+    background: #F1EEFF;
+    color: #6A4FCB;
+}
+
+.icon-did {
+    background: var(--lav-pale);
+    color: var(--lav-dark);
+}
+
+.icon-panic {
+    background: #FFECF2;
+    color: #C2296B;
+}
+
+.icon-ptsd {
+    background: #EFF7FF;
+    color: #1E6FBF;
+}
+
+.icon-eating {
+    background: #FFF0E9;
+    color: #B25125;
+}
+
+.icon-bpd {
+    background: #FFF0F0;
+    color: #C23548;
+}
+
+.icon-narc {
+    background: #F5F0FF;
+    color: #7B4FE0;
+}
+
+.icon-sch {
+    background: #EEF0FF;
+    color: #4338CA;
+}
+
+.icon-id {
+    background: #EAFBF0;
+    color: #128049;
+}
+
+.icon-klepto {
+    background: #FFF4E5;
+    color: #A25F0A;
+}
+
+.icon-dyscalc {
+    background: #E8FBFF;
+    color: #0C7B8E;
+}
+
+.icon-dyslex {
+    background: #F5FBE8;
+    color: #557C19;
+}
+
+.icon-psychosis {
+    background: #F1EFFB;
+    color: #5B4B8A;
+}
+
+.icon-szf {
+    background: #F7EEFF;
+    color: #8B3FD6;
+}
+
+.icon-sza {
+    background: #F0EEFB;
+    color: #5A4FD1;
+}
+
+.icon-szt {
+    background: #FBEFF5;
+    color: #A83E85;
+}
+
+.icon-szd {
+    background: #EFF3F5;
+    color: #4C6478;
+}
+
+.tag-mood {
+    background: #FFF1E8;
+    color: #AF560B;
+}
+
+.tag-adhd {
+    background: #FFF8E1;
+    color: #946A0A;
+}
+
+.tag-depression {
+    background: #EAF0FF;
+    color: #3D4FC4;
+}
+
+.tag-anxiety {
+    background: #EAF3FF;
+    color: var(--brand-dark);
+}
+
+.tag-ocd {
+    background: #E9FBF4;
+    color: #09805A;
+}
+
+.tag-asd {
+    background: #F1EEFF;
+    color: #6A4FCB;
+}
+
+.tag-did {
+    background: var(--lav-pale);
+    color: var(--lav-dark);
+}
+
+.tag-panic {
+    background: #FFECF2;
+    color: #C2296B;
+}
+
+.tag-ptsd {
+    background: #EFF7FF;
+    color: #1E6FBF;
+}
+
+.tag-eating {
+    background: #FFF0E9;
+    color: #B25125;
+}
+
+.tag-bpd {
+    background: #FFF0F0;
+    color: #C23548;
+}
+
+.tag-narc {
+    background: #F5F0FF;
+    color: #7B4FE0;
+}
+
+.tag-sch {
+    background: #EEF0FF;
+    color: #4338CA;
+}
+
+.tag-id {
+    background: #EAFBF0;
+    color: #128049;
+}
+
+.tag-klepto {
+    background: #FFF4E5;
+    color: #A25F0A;
+}
+
+.tag-dyscalc {
+    background: #E8FBFF;
+    color: #0C7B8E;
+}
+
+.tag-dyslex {
+    background: #F5FBE8;
+    color: #557C19;
+}
+
+.tag-psychosis {
+    background: #F1EFFB;
+    color: #5B4B8A;
+}
+
+.tag-szf {
+    background: #F7EEFF;
+    color: #8B3FD6;
+}
+
+.tag-sza {
+    background: #F0EEFB;
+    color: #5A4FD1;
+}
+
+.tag-szt {
+    background: #FBEFF5;
+    color: #A83E85;
+}
+
+.tag-szd {
+    background: #EFF3F5;
+    color: #4C6478;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-3);
+    display: none;
+}
+
+    .empty-state.show {
+        display: block;
+    }
+
+    .empty-state svg {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 14px;
+        opacity: .5;
+    }
+
+    .empty-state p {
+        font-size: 14.5px;
+    }
+
+/* ══════════════════════════════════════════════════════════════
+     ПАГИНАЦИЯ
+  ══════════════════════════════════════════════════════════════ */
+/* Пагинация — «дорожка» с выступающей плашкой на текущей странице: тот же
+   приём, что у меню в шапке сайта (.nav-menu: тонированная капсула + белая
+   плашка с мягкой тенью у активного пункта), поэтому блок выглядит частью
+   интерфейса, а не отдельным набором квадратных кнопок с рамками.
+   Разметку строят wiki.js / tests.js / community.js: стрелки и номера — это
+   .page-btn, многоточие — .page-ellipsis, текущая страница — .is-active. */
+.pagination {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin-top: 40px;
+    padding: 4px;
+    background: rgba(20,30,45,.045);
+    border-radius: 999px;
+}
+
+    .pagination.show {
+        display: flex;
+        width: fit-content;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+.page-btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--text-2);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .12s ease;
+}
+
+    .page-btn:hover:not([disabled]):not(.is-active) {
+        background: rgba(255,255,255,.7);
+        color: var(--text);
+    }
+
+    .page-btn:active:not([disabled]):not(.is-active) {
+        transform: scale(.94);
+    }
+
+    .page-btn:focus-visible {
+        outline: 2px solid var(--brand);
+        outline-offset: 1px;
+    }
+
+    .page-btn.is-active {
+        background: var(--surface);
+        color: var(--brand-dark);
+        box-shadow: 0 2px 8px rgba(20,30,45,.10);
+        cursor: default;
+    }
+
+    .page-btn[disabled] {
+        opacity: .35;
+        cursor: default;
+    }
+
+    .page-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Стрелки «назад/вперёд» — по краям дорожки, чуть приглушённее номеров,
+       и отодвинуты от них, чтобы читались как отдельные действия. */
+    .page-btn:first-child {
+        margin-right: 6px;
+        color: var(--text-3);
+    }
+
+    .page-btn:last-child {
+        margin-left: 6px;
+        color: var(--text-3);
+    }
+
+        .page-btn:first-child:hover:not([disabled]),
+        .page-btn:last-child:hover:not([disabled]) {
+            color: var(--brand-dark);
+        }
+
+.page-ellipsis {
+    min-width: 22px;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 14px;
+    user-select: none;
+}
+
+@media (max-width: 640px) {
+    .pagination {
+        padding: 3px;
+        /* Если страниц много (Сообщество выводит все подряд), дорожка
+           переносится на вторую строку — с радиусом 999px это выглядело бы
+           как гигантская таблетка, поэтому радиус ограничен. */
+        border-radius: 22px;
+    }
+
+    .page-btn {
+        min-width: 34px;
+        height: 34px;
+        font-size: 13px;
+        padding: 0 8px;
+    }
+
+        .page-btn:first-child {
+            margin-right: 3px;
+        }
+
+        .page-btn:last-child {
+            margin-left: 3px;
+        }
+}
+
+@keyframes cardPulse {
+    0% {
+        box-shadow: 0 8px 24px rgba(20,30,45,.06), 0 0 0 0 rgba(0,122,255,.35);
+    }
+
+    50% {
+        box-shadow: 0 8px 24px rgba(20,30,45,.06), 0 0 0 8px rgba(0,122,255,0);
+    }
+
+    100% {
+        box-shadow: 0 8px 24px rgba(20,30,45,.06), 0 0 0 0 rgba(0,122,255,0);
+    }
+}
+
+.wiki-card.is-pulsing {
+    animation: cardPulse 1.1s ease;
+}
+
+/* ══════════════════════════════════════════════════════════════
+     ПОДВАЛ (идентичен главной)
+  ══════════════════════════════════════════════════════════════ */
+.site-footer {
+    margin-top: 24px;
+    padding: 0 24px 28px;
+}
+
+/* Подвал — «зеркало» шапки: тот же ритм (логотип слева, меню-капсула по
+   центру, значки справа), но собран в одну скруглённую карточку, как
+   карточка специалиста на главной (.hero): на фоне страницы, а не отдельной
+   белой полосой во всю ширину с линией сверху. Разметка (HTML) не менялась. */
+.footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 40px 22px;
+    background: var(--surface);
+    border-radius: 28px;
+    box-shadow: 0 6px 24px rgba(20,30,45,.06);
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 28px;
+}
+
+    .footer-top .logo-slot {
+        grid-column: 1;
+        justify-self: start;
+    }
+
+/* Меню подвала — та же капсула, что .nav-menu в шапке; ссылка под курсором
+   «поднимается» белой плашкой, как активный пункт шапки. */
+.footer-nav {
+    grid-column: 2;
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: rgba(20,30,45,.045);
+    border-radius: 999px;
+}
+
+    .footer-nav a {
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-2);
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .18s, color .18s, box-shadow .18s;
+    }
+
+        .footer-nav a:hover {
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(20,30,45,.08);
+        }
+
+.footer-social {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .footer-social a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(20,30,45,.045);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-2);
+        transition: background .18s, color .18s, transform .15s;
+    }
+
+        .footer-social a:hover {
+            background: var(--brand-pale);
+            color: var(--brand-dark);
+            transform: translateY(-2px);
+        }
+
+    .footer-social svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+        fill: currentColor;
+    }
+
+    .footer-social a[aria-label="imo"] svg,
+    .footer-social a[aria-label="WeChat"] svg {
+        width: 17px;
+        height: 17px;
+    }
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: var(--text-3);
+}
+
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+}
+
+    .footer-legal a {
+        font-size: 13px;
+        color: var(--text-3);
+        text-decoration: none;
+        transition: color .18s;
+    }
+
+        .footer-legal a:hover {
+            color: var(--brand-dark);
+        }
+
+/* Заметка про тех. неполадки — отдельная спокойная плашка, а не третья
+   линия-разделитель подряд. */
+.footer-tech {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: 14px;
+    font-size: 12.5px;
+    color: var(--text-3);
+    line-height: 1.6;
+}
+
+    .footer-tech a {
+        color: var(--text-3);
+        text-decoration: underline;
+        text-decoration-color: var(--border);
+        text-underline-offset: 2px;
+        transition: color .18s;
+    }
+
+        .footer-tech a:hover {
+            color: var(--brand-dark);
+        }
+
+/* Ссылка «IP Geolocation by DB-IP» лежит прямо в <footer>, вне карточки, и
+   раньше не имела стилей (синяя подчёркнутая в углу). Это обязательная
+   атрибуция — оставляем видимой, но приглушённой и по центру под карточкой. */
+.site-footer > a {
+    display: block;
+    width: fit-content;
+    margin: 18px auto 0;
+    font-size: 12px;
+    color: var(--text-3);
+    text-decoration: none;
+    transition: color .18s;
+}
+
+    .site-footer > a:hover {
+        color: var(--brand-dark);
+        text-decoration: underline;
+    }
+
+/* Средние экраны: три колонки уже не помещаются — логотип и значки в одну
+   строку, меню-капсула ниже по центру. */
+@media (max-width:1040px) {
+    .footer-top {
+        grid-template-columns: 1fr auto;
+        row-gap: 20px;
+    }
+
+    .footer-social {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .footer-nav {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+}
+
+@media (max-width:760px) {
+    .site-footer {
+        margin-top: 40px;
+        padding: 0 12px 24px;
+    }
+
+    .footer-inner {
+        padding: 24px 16px 18px;
+        border-radius: 24px;
+    }
+
+    /* Порядок на телефоне: логотип → меню → соцсети (меню важнее значков). */
+    .footer-top {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        row-gap: 18px;
+        padding-bottom: 20px;
+    }
+
+        .footer-top .logo-slot {
+            justify-self: center;
+        }
+
+    /* Меню — не серая капсула с четырьмя «голыми» словами, а 2×2 плитки с
+       иконками: понятно, что это кнопки, и крупная зона нажатия. Иконки
+       рисуются маской по адресу ссылки, поэтому HTML менять не нужно. */
+    .footer-nav {
+        grid-column: 1;
+        grid-row: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+        padding: 0;
+        background: none;
+        border-radius: 0;
+    }
+
+        .footer-nav a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            min-height: 48px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(20,30,45,.045);
+            color: var(--text);
+            font-size: 14px;
+            text-align: left;
+        }
+
+            .footer-nav a::before {
+                content: "";
+                flex: 0 0 20px;
+                width: 20px;
+                height: 20px;
+                background: var(--brand);
+                -webkit-mask: var(--fn-ico) center / contain no-repeat;
+                mask: var(--fn-ico) center / contain no-repeat;
+            }
+
+            .footer-nav a[href^="index"] {
+                --fn-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 11.2 12 4l8 7.2'/%3E%3Cpath d='M6 10v9.2c0 .4.4.8.8.8H10v-5.5h4V20h3.2c.4 0 .8-.4.8-.8V10'/%3E%3C/svg%3E");
+            }
+
+            .footer-nav a[href^="wiki"] {
+                --fn-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6.5C10.3 5.3 8 4.8 4 4.8v13.4c4 0 6.3.5 8 1.8 1.7-1.3 4-1.8 8-1.8V4.8c-4 0-6.3.5-8 1.7z'/%3E%3Cpath d='M12 6.5V20'/%3E%3C/svg%3E");
+            }
+
+            .footer-nav a[href^="tests"] {
+                --fn-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='4.5' width='14' height='16' rx='2.5'/%3E%3Cpath d='M9 4.5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v.5'/%3E%3Cpath d='m8.8 12.4 1.7 1.7 3.2-3.4M8.8 17h6.4'/%3E%3C/svg%3E");
+            }
+
+            .footer-nav a[href^="community"] {
+                --fn-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v8.5A1.5 1.5 0 0 1 19 17h-7l-4.5 3.5V17H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5z'/%3E%3C/svg%3E");
+            }
+
+            .footer-nav a:hover,
+            .footer-nav a:active {
+                background: rgba(0,113,237,.10);
+                color: var(--brand-dark);
+                box-shadow: none;
+            }
+
+    .footer-social {
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: center;
+        gap: 12px;
+    }
+
+        .footer-social a {
+            width: 44px;
+            height: 44px;
+        }
+
+    /* Нижняя часть: по центру, юридические ссылки — списком на всю ширину
+       (раньше «Пользовательское соглашение» и «Контакты» склеивались в одну
+       строку и выглядели случайно). */
+    .footer-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        padding-top: 16px;
+        text-align: center;
+    }
+
+    .footer-copy {
+        font-size: 12.5px;
+        line-height: 1.5;
+    }
+
+    .footer-legal {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0;
+        margin-top: 8px;
+    }
+
+        .footer-legal a {
+            padding: 11px 4px;
+            border-top: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+    .footer-tech {
+        margin-top: 12px;
+        padding: 12px 14px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
+
+/* Совсем узкие экраны (iPhone SE и меньше): плитки чуть компактнее,
+   чтобы «Сообщество» не переносилось. */
+@media (max-width:360px) {
+    .footer-inner {
+        padding: 22px 12px 16px;
+    }
+
+    .footer-nav a {
+        gap: 7px;
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+
+        .footer-nav a::before {
+            flex-basis: 18px;
+            width: 18px;
+            height: 18px;
+        }
+}
+
+@media (max-width:560px) {
+    .wiki-hero {
+        padding: 36px 20px 4px;
+    }
+
+    .wiki-main {
+        padding: 28px 16px 60px;
+    }
+
+    .wiki-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+     МОДАЛЬНОЕ ОКНО (WeChat и т.п.)
+  ══════════════════════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(20,30,45,.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease;
+}
+
+    .modal-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+.modal-card {
+    width: 100%;
+    max-width: 340px;
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 30px 26px 24px;
+    box-shadow: 0 24px 60px rgba(20,30,45,.24);
+    text-align: center;
+    transform: translateY(14px) scale(.96);
+    transition: transform .28s cubic-bezier(.22,1,.36,1);
+}
+
+.modal-overlay.open .modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.modal-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--lav-pale);
+    color: var(--lav-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+    .modal-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    margin-bottom: 8px;
+}
+
+.modal-text {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+    .modal-actions .btn {
+        flex: 1;
+        height: 46px;
+        font-size: 14.5px;
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-card, .modal-overlay {
+        transition: opacity .2s ease !important;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════
+     WECHAT ID — БЛОК С КОПИРОВАНИЕМ
+  ══════════════════════════════════════════════════════════════ */
+.wechat-id-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 8px 12px 16px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    transition: border-color .2s ease, transform .15s ease;
+}
+
+    .wechat-id-box:hover {
+        border-color: var(--brand-pale);
+    }
+
+    .wechat-id-box:active {
+        transform: scale(.98);
+    }
+
+.wechat-id-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: .1px;
+    word-break: break-all;
+    text-align: left;
+}
+
+.wechat-copy-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    border: none;
+    background: var(--surface);
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+
+    .wechat-copy-btn:hover {
+        background: var(--brand-pale);
+        color: var(--brand-dark);
+    }
+
+    .wechat-copy-btn:active {
+        transform: scale(.9);
+    }
+
+    .wechat-copy-btn.is-copied {
+        background: var(--mint);
+        color: #fff;
+    }
+
+    .wechat-copy-btn svg {
+        width: 17px;
+        height: 17px;
+    }
+
+.wechat-copied-hint {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--mint);
+    height: 16px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+    .wechat-copied-hint.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+/* Ссылка-кнопка "показать инструкцию" внутри окна с WeChat ID */
+.wechat-guide-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    background: none;
+    border: none;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand);
+    cursor: pointer;
+    padding: 4px 6px 18px;
+    text-align: center;
+    line-height: 1.35;
+}
+
+    .wechat-guide-link:hover {
+        color: var(--brand-dark);
+        text-decoration: underline;
+    }
+
+    .wechat-guide-link svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+/* ══════════════════════════════════════════════════════════════
+     ИНСТРУКЦИЯ WECHAT — ГАЛЕРЕЯ ШАГОВ
+
+     Мобильные/узкие экраны и планшет-портрет: колонка —
+     картинка сверху, текст под ней.
+     Десктоп, планшет-ландшафт, телефон-ландшафт: две колонки —
+     текст слева, картинка справа, кнопки на всю ширину снизу.
+  ══════════════════════════════════════════════════════════════ */
+.guide-card {
+    position: relative;
+    max-width: 380px;
+    padding: 26px 22px 20px;
+    transition: transform .28s cubic-bezier(.22,1,.36,1), max-width .2s ease;
+}
+
+.guide-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(20,30,45,.05);
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease;
+    z-index: 1;
+}
+
+    .guide-close:hover {
+        background: var(--lav-pale);
+        color: var(--lav-dark);
+    }
+
+    .guide-close svg {
+        width: 16px;
+        height: 16px;
+    }
+
+.guide-title {
+    padding-right: 28px;
+}
+
+.guide-subtitle {
+    margin-bottom: 14px;
+}
+
+/* Обёртка текст+картинка — колонка на узких экранах, ряд на широких */
+.guide-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-info {
+    text-align: center;
+}
+
+.guide-media {
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-viewport {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.guide-frame {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Картинка масштабируется по своим реальным пропорциям — не растягивается
+   и не "теряется" в рамке другого соотношения сторон */
+.guide-image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: min(44vh, 400px);
+    object-fit: contain;
+    border-radius: 8px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.guide-arrow {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, border-color .18s ease, opacity .18s ease;
+}
+
+    .guide-arrow:hover {
+        background: var(--brand-pale);
+        color: var(--brand-dark);
+        border-color: var(--brand-pale);
+    }
+
+    .guide-arrow:disabled {
+        opacity: .35;
+        cursor: default;
+        background: var(--surface);
+        color: var(--text-2);
+        border-color: var(--border);
+    }
+
+    .guide-arrow svg {
+        width: 16px;
+        height: 16px;
+    }
+
+.guide-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.guide-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background .18s ease, transform .18s ease, width .18s ease;
+}
+
+    .guide-dot:hover {
+        background: var(--brand-pale);
+    }
+
+    .guide-dot.active {
+        background: var(--brand);
+        width: 18px;
+        border-radius: 4px;
+    }
+
+.guide-step-count {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    color: var(--lav-dark);
+    background: var(--lav-pale);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.guide-step-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 18px;
+}
+
+/* ── Планшет-портрет и выше: карточке чуть просторнее, но раскладка
+     остаётся колоночной (высоты экрана достаточно) ── */
+@media (min-width: 600px) {
+    .guide-card {
+        max-width: 460px;
+    }
+
+    .guide-image {
+        max-height: min(48vh, 440px);
+    }
+}
+
+/* ── Широкие экраны (десктоп, планшет-ландшафт) и телефон-ландшафт:
+     переключаемся на двухколоночную раскладку — текст слева,
+     картинка справа, кнопки снизу на всю ширину ── */
+@media (min-width: 820px), (orientation: landscape) and (max-height: 500px) and (min-width: 560px) {
+    .guide-card {
+        max-width: 720px;
+    }
+
+    .guide-body {
+        flex-direction: row;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .guide-info {
+        flex: 0 0 240px;
+        text-align: left;
+    }
+
+    .guide-step-text {
+        margin-bottom: 0;
+    }
+
+    .guide-media {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .guide-image {
+        max-height: min(56vh, 460px);
+    }
+
+    .modal-actions {
+        max-width: 320px;
+        margin: 20px auto 0;
+    }
+}
+
+/* Совсем короткие широкие окна (например, ноутбук 1366×768 при 100%) —
+   слегка уменьшаем картинку и отступы, чтобы всё гарантированно влезало */
+@media (min-width: 820px) and (max-height: 760px) {
+    .modal-overlay {
+        padding: 14px 20px;
+    }
+
+    .guide-card {
+        padding: 20px 24px 18px;
+    }
+
+    .guide-title {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+
+    .guide-subtitle {
+        margin-bottom: 12px;
+    }
+
+    .guide-image {
+        max-height: min(40vh, 340px);
+    }
+}
+
+/* Компактный режим для невысоких узких окон/экранов (телефон-портрет
+   с небольшой высотой, масштаб 100% на маленьких ноутбуках и т.п.) —
+   вся инструкция помещается без прокрутки страницы */
+@media (max-width: 819px) and (max-height: 760px) {
+    .modal-overlay {
+        padding: 14px 20px;
+    }
+
+    .guide-card {
+        padding: 18px 20px 16px;
+    }
+
+    .guide-title {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .guide-subtitle {
+        font-size: 12.5px;
+        margin-bottom: 10px;
+    }
+
+    .guide-image {
+        max-height: min(30vh, 260px);
+    }
+
+    .guide-viewport {
+        margin-bottom: 8px;
+    }
+
+    .guide-dots {
+        margin-bottom: 8px;
+    }
+
+    .guide-step-text {
+        font-size: 13px;
+        margin-bottom: 12px;
+    }
+
+    .modal-actions .btn {
+        height: 40px;
+    }
+}
+
+@media (max-width: 819px) and (max-height: 620px) {
+    .guide-image {
+        max-height: min(24vh, 190px);
+    }
+
+    .guide-subtitle {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .guide-arrow {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Добавить в конец wwwroot/css/wiki.css (только новые 6 статей) */
+
+.icon-socphob {
+    background: #EEF3FD;
+    color: #3B62B3;
+}
+
+.tag-socphob {
+    background: #EEF3FD;
+    color: #3B62B3;
+}
+
+.icon-phobia {
+    background: #FFF0E8;
+    color: #B04E14;
+}
+
+.tag-phobia {
+    background: #FFF0E8;
+    color: #B04E14;
+}
+
+.icon-insomnia {
+    background: #EDEEF9;
+    color: #3E4A9E;
+}
+
+.tag-insomnia {
+    background: #EDEEF9;
+    color: #3E4A9E;
+}
+
+.icon-burnout {
+    background: #FDF0EA;
+    color: #B4501F;
+}
+
+.tag-burnout {
+    background: #FDF0EA;
+    color: #B4501F;
+}
+
+.icon-impostor {
+    background: #F5EEF9;
+    color: #8342A8;
+}
+
+.tag-impostor {
+    background: #F5EEF9;
+    color: #8342A8;
+}
+
+.icon-bullying {
+    background: #FCEBEC;
+    color: #B22F3A;
+}
+
+.tag-bullying {
+    background: #FCEBEC;
+    color: #B22F3A;
+}
+
+/* Добавить в конец wwwroot/css/wiki.css (только 7 новых статей этой партии) */
+
+.icon-ludo {
+    background: #EAF6EE;
+    color: #2A7A47;
+}
+
+.tag-ludo {
+    background: #EAF6EE;
+    color: #2A7A47;
+}
+
+.icon-procrast {
+    background: #FFF4E5;
+    color: #B5620A;
+}
+
+.tag-procrast {
+    background: #FFF4E5;
+    color: #B5620A;
+}
+
+.icon-apathy {
+    background: #EEF0F3;
+    color: #5A6675;
+}
+
+.tag-apathy {
+    background: #EEF0F3;
+    color: #5A6675;
+}
+
+.icon-psychosom {
+    background: #FDECEF;
+    color: #B23B57;
+}
+
+.tag-psychosom {
+    background: #FDECEF;
+    color: #B23B57;
+}
+
+.icon-anhedonia {
+    background: #EDEDF7;
+    color: #4B4F9E;
+}
+
+.tag-anhedonia {
+    background: #EDEDF7;
+    color: #4B4F9E;
+}
+
+.icon-alexithymia {
+    background: #E8F5F4;
+    color: #1F7C78;
+}
+
+.tag-alexithymia {
+    background: #E8F5F4;
+    color: #1F7C78;
+}
+
+.icon-depers {
+    background: #F0EEF8;
+    color: #5E4DB2;
+}
+
+.tag-depers {
+    background: #F0EEF8;
+    color: #5E4DB2;
+}
+
+/* Добавить в конец wwwroot/css/wiki.css (только 8 новых статей этой партии) */
+
+.icon-hypochondria {
+    background: #EAF4FB;
+    color: #1E6FA3;
+}
+
+.tag-hypochondria {
+    background: #EAF4FB;
+    color: #1E6FA3;
+}
+
+.icon-bdd {
+    background: #F9EDF6;
+    color: #A63B8A;
+}
+
+.tag-bdd {
+    background: #F9EDF6;
+    color: #A63B8A;
+}
+
+.icon-tourette {
+    background: #FFF1E3;
+    color: #B5590F;
+}
+
+.tag-tourette {
+    background: #FFF1E3;
+    color: #B5590F;
+}
+
+.icon-grief {
+    background: #EEEEF3;
+    color: #4E5673;
+}
+
+.tag-grief {
+    background: #EEEEF3;
+    color: #4E5673;
+}
+
+.icon-mutism {
+    background: #EAF5F0;
+    color: #2B7A5F;
+}
+
+.tag-mutism {
+    background: #EAF5F0;
+    color: #2B7A5F;
+}
+
+.icon-attach {
+    background: #FDEEF0;
+    color: #B03A4E;
+}
+
+.tag-attach {
+    background: #FDEEF0;
+    color: #B03A4E;
+}
+
+.icon-abuse {
+    background: #FBEAE8;
+    color: #A8321F;
+}
+
+.tag-abuse {
+    background: #FBEAE8;
+    color: #A8321F;
+}
+
+.icon-avoidant {
+    background: #EDF0F8;
+    color: #3E5A99;
+}
+
+.tag-avoidant {
+    background: #EDF0F8;
+    color: #3E5A99;
+}
+
+/* Добавить в конец wwwroot/css/wiki.css (только 8 новых статей этой партии) */
+
+.icon-agora {
+    background: #EAF3FB;
+    color: #2A6DA8;
+}
+
+.tag-agora {
+    background: #EAF3FB;
+    color: #2A6DA8;
+}
+
+.icon-sepanx {
+    background: #FDF1EC;
+    color: #B5552A;
+}
+
+.tag-sepanx {
+    background: #FDF1EC;
+    color: #B5552A;
+}
+
+.icon-adjust {
+    background: #EDF6EA;
+    color: #3D7A2D;
+}
+
+.tag-adjust {
+    background: #EDF6EA;
+    color: #3D7A2D;
+}
+
+.icon-paranoid {
+    background: #F1EDF9;
+    color: #5F3FA8;
+}
+
+.tag-paranoid {
+    background: #F1EDF9;
+    color: #5F3FA8;
+}
+
+.icon-parasomnia {
+    background: #E9EEF9;
+    color: #2F4F99;
+}
+
+.tag-parasomnia {
+    background: #E9EEF9;
+    color: #2F4F99;
+}
+
+.icon-digital {
+    background: #EAF7F8;
+    color: #1B7C86;
+}
+
+.tag-digital {
+    background: #EAF7F8;
+    color: #1B7C86;
+}
+
+.icon-lonely {
+    background: #EEF0F5;
+    color: #4A5878;
+}
+
+.tag-lonely {
+    background: #EEF0F5;
+    color: #4A5878;
+}
+
+.icon-trich {
+    background: #FAEFF3;
+    color: #A33F62;
+}
+
+.tag-trich {
+    background: #FAEFF3;
+    color: #A33F62;
+}
+
+.icon-stress {
+    background: #FFEDEA;
+    color: #B23B2A;
+}
+
+.tag-stress {
+    background: #FFEDEA;
+    color: #B23B2A;
+}
+
+.icon-dysthymia {
+    background: #E8EEF3;
+    color: #3F5F7A;
+}
+
+.tag-dysthymia {
+    background: #E8EEF3;
+    color: #3F5F7A;
+}
+
+.icon-seasonal {
+    background: #FFF4DC;
+    color: #9A6A00;
+}
+
+.tag-seasonal {
+    background: #FFF4DC;
+    color: #9A6A00;
+}
+
+.icon-testanx {
+    background: #E9F1FF;
+    color: #3556B0;
+}
+
+.tag-testanx {
+    background: #E9F1FF;
+    color: #3556B0;
+}
+
+.icon-schoolref {
+    background: #EAF6EE;
+    color: #2F7A52;
+}
+
+.tag-schoolref {
+    background: #EAF6EE;
+    color: #2F7A52;
+}
+
+.icon-odd {
+    background: #FDEBEB;
+    color: #A33A3A;
+}
+
+.tag-odd {
+    background: #FDEBEB;
+    color: #A33A3A;
+}
+
+.icon-anger {
+    background: #FFE9E0;
+    color: #B0481F;
+}
+
+.tag-anger {
+    background: #FFE9E0;
+    color: #B0481F;
+}
+
+.icon-dyspraxia {
+    background: #F1ECFA;
+    color: #6A4BA8;
+}
+
+.tag-dyspraxia {
+    background: #F1ECFA;
+    color: #6A4BA8;
+}
+
+.icon-dysgraphia {
+    background: #E8F3F6;
+    color: #2C7686;
+}
+
+.tag-dysgraphia {
+    background: #E8F3F6;
+    color: #2C7686;
+}
+
+.icon-stutter {
+    background: #EFF3E6;
+    color: #5B7A2A;
+}
+
+.tag-stutter {
+    background: #EFF3E6;
+    color: #5B7A2A;
+}
+
+.icon-misophonia {
+    background: #F6ECF7;
+    color: #8A3F93;
+}
+
+.tag-misophonia {
+    background: #F6ECF7;
+    color: #8A3F93;
+}
+
+.icon-dsps {
+    background: #E7EAF8;
+    color: #3F4A9E;
+}
+
+.tag-dsps {
+    background: #E7EAF8;
+    color: #3F4A9E;
+}
+
+.icon-fomo {
+    background: #FCEEF4;
+    color: #B03A70;
+}
+
+.tag-fomo {
+    background: #FCEEF4;
+    color: #B03A70;
+}
+
+.icon-cyberbully {
+    background: #E8F0FA;
+    color: #2D5B93;
+}
+
+.tag-cyberbully {
+    background: #E8F0FA;
+    color: #2D5B93;
+}
+
+.icon-shame {
+    background: #F5EDE6;
+    color: #8A5A3B;
+}
+
+.tag-shame {
+    background: #F5EDE6;
+    color: #8A5A3B;
+}
+
+.icon-peer {
+    background: #E6F4F1;
+    color: #1F7A6B;
+}
+
+.tag-peer {
+    background: #E6F4F1;
+    color: #1F7A6B;
+}
+
+.icon-cultshock {
+    background: #E8F3EA;
+    color: #2F7A4B;
+}
+
+.tag-cultshock {
+    background: #E8F3EA;
+    color: #2F7A4B;
+}
+
+.icon-paris {
+    background: #F1EAF7;
+    color: #6E3FA0;
+}
+
+.tag-paris {
+    background: #F1EAF7;
+    color: #6E3FA0;
+}
+
+.icon-jerusalem {
+    background: #EFEAE0;
+    color: #6F5A2E;
+}
+
+.tag-jerusalem {
+    background: #EFEAE0;
+    color: #6F5A2E;
+}
+
+.icon-stendhal {
+    background: #FBEAE6;
+    color: #B24A33;
+}
+
+.tag-stendhal {
+    background: #FBEAE6;
+    color: #B24A33;
+}
+
+.icon-spanshame {
+    background: #FDEBEF;
+    color: #B3304F;
+}
+
+.tag-spanshame {
+    background: #FDEBEF;
+    color: #B3304F;
+}
+
+.icon-rumination {
+    background: #E6F1F2;
+    color: #2D6B77;
+}
+
+.tag-rumination {
+    background: #E6F1F2;
+    color: #2D6B77;
+}
+
+.icon-helpless {
+    background: #EEEEE6;
+    color: #5E5E48;
+}
+
+.tag-helpless {
+    background: #EEEEE6;
+    color: #5E5E48;
+}
+
+.icon-toxicpos {
+    background: #FFF1DD;
+    color: #B36A00;
+}
+
+.tag-toxicpos {
+    background: #FFF1DD;
+    color: #B36A00;
+}
+
+.icon-hikikomori {
+    background: #E9EBF2;
+    color: #3E4A68;
+}
+
+.tag-hikikomori {
+    background: #E9EBF2;
+    color: #3E4A68;
+}
+
+.icon-nostalgia {
+    background: #F6EEDF;
+    color: #9A6B2E;
+}
+
+.tag-nostalgia {
+    background: #F6EEDF;
+    color: #9A6B2E;
+}
+
+.icon-duckling {
+    background: #FFF4D6;
+    color: #9A7400;
+}
+
+.tag-duckling {
+    background: #FFF4D6;
+    color: #9A7400;
+}
+
+.icon-mandela {
+    background: #EAEAF7;
+    color: #4B4BA8;
+}
+
+.tag-mandela {
+    background: #EAEAF7;
+    color: #4B4BA8;
+}
+
+.icon-dejavu {
+    background: #E9F2FB;
+    color: #2B6BB0;
+}
+
+.tag-dejavu {
+    background: #E9F2FB;
+    color: #2B6BB0;
+}
+
+.icon-ecoanx {
+    background: #E7F4E4;
+    color: #3B7D2C;
+}
+
+.tag-ecoanx {
+    background: #E7F4E4;
+    color: #3B7D2C;
+}
+
+.icon-boredom {
+    background: #EFEFEF;
+    color: #5C6670;
+}
+
+.tag-boredom {
+    background: #EFEFEF;
+    color: #5C6670;
+}
+
+.icon-excellent {
+    background: #FDF0E1;
+    color: #B2621B;
+}
+
+.tag-excellent {
+    background: #FDF0E1;
+    color: #B2621B;
+}
+
+.icon-emoreg {
+    background: #E4F2F8;
+    color: #1F6F96;
+}
+
+.tag-emoreg {
+    background: #E4F2F8;
+    color: #1F6F96;
+}
+
+.icon-dunning {
+    background: #E8EEFF;
+    color: #3355CC;
+}
+
+.tag-dunning {
+    background: #E8EEFF;
+    color: #3355CC;
+}
+
+.icon-bedtimeproc {
+    background: #EDE9FB;
+    color: #5B3FC4;
+}
+
+.tag-bedtimeproc {
+    background: #EDE9FB;
+    color: #5B3FC4;
+}
+
+.icon-timepress {
+    background: #FDECEC;
+    color: #C03A3A;
+}
+
+.tag-timepress {
+    background: #FDECEC;
+    color: #C03A3A;
+}
+
+.icon-smalltalk {
+    background: #E3F4FD;
+    color: #0B7BB5;
+}
+
+.tag-smalltalk {
+    background: #E3F4FD;
+    color: #0B7BB5;
+}
+
+.icon-eq {
+    background: #FFEDE8;
+    color: #C4482A;
+}
+
+.tag-eq {
+    background: #FFEDE8;
+    color: #C4482A;
+}
+
+.icon-spotlight {
+    background: #FFF9D6;
+    color: #7A6A00;
+}
+
+.tag-spotlight {
+    background: #FFF9D6;
+    color: #7A6A00;
+}
+
+.icon-cogdist {
+    background: #F3E8FB;
+    color: #8A3FB8;
+}
+
+.tag-cogdist {
+    background: #F3E8FB;
+    color: #8A3FB8;
+}
+
+.icon-selfcomp {
+    background: #FFEFF2;
+    color: #C73A5C;
+}
+
+.tag-selfcomp {
+    background: #FFEFF2;
+    color: #C73A5C;
+}
+
+.icon-boundaries {
+    background: #EAF6E6;
+    color: #3C7D2A;
+}
+
+.tag-boundaries {
+    background: #EAF6E6;
+    color: #3C7D2A;
+}
+
+.icon-barnum {
+    background: #F9E8F5;
+    color: #A12D8F;
+}
+
+.tag-barnum {
+    background: #F9E8F5;
+    color: #A12D8F;
+}
+
+.icon-failfear {
+    background: #E6F0F2;
+    color: #2F6470;
+}
+
+.tag-failfear {
+    background: #E6F0F2;
+    color: #2F6470;
+}
+
+.icon-choiceparal {
+    background: #FFF1E0;
+    color: #A8570E;
+}
+
+.tag-choiceparal {
+    background: #FFF1E0;
+    color: #A8570E;
+}
+
+.icon-freudslip {
+    background: #FFF1E6;
+    color: #B5560A;
+}
+
+.tag-freudslip {
+    background: #FFF1E6;
+    color: #B5560A;
+}
+
+.icon-sleepwalk {
+    background: #E6EBFB;
+    color: #2E47B5;
+}
+
+.tag-sleepwalk {
+    background: #E6EBFB;
+    color: #2E47B5;
+}
+
+.icon-intrusive {
+    background: #E9F1F7;
+    color: #2A5F85;
+}
+
+.tag-intrusive {
+    background: #E9F1F7;
+    color: #2A5F85;
+}
+
+.icon-daydream {
+    background: #F2EBFC;
+    color: #6A3FB8;
+}
+
+.tag-daydream {
+    background: #F2EBFC;
+    color: #6A3FB8;
+}
+
+.icon-maincharacter {
+    background: #FFEAF1;
+    color: #C23A6A;
+}
+
+.tag-maincharacter {
+    background: #FFEAF1;
+    color: #C23A6A;
+}
+
+.icon-doorway {
+    background: #EAF3E8;
+    color: #3B7A33;
+}
+
+.tag-doorway {
+    background: #EAF3E8;
+    color: #3B7A33;
+}
+
+.icon-phantomvib {
+    background: #E4F6F5;
+    color: #1B7A78;
+}
+
+.tag-phantomvib {
+    background: #E4F6F5;
+    color: #1B7A78;
+}
+
+.icon-satiation {
+    background: #EEEFF5;
+    color: #4B5273;
+}
+
+.tag-satiation {
+    background: #EEEFF5;
+    color: #4B5273;
+}
+
+.icon-innerspeech {
+    background: #E8F1FF;
+    color: #2B64C4;
+}
+
+.tag-innerspeech {
+    background: #E8F1FF;
+    color: #2B64C4;
+}
+
+.icon-tiptongue {
+    background: #FDEEF0;
+    color: #B8404F;
+}
+
+.tag-tiptongue {
+    background: #FDEEF0;
+    color: #B8404F;
+}
+
+.icon-frequencyill {
+    background: #FFF6D9;
+    color: #8A6A00;
+}
+
+.tag-frequencyill {
+    background: #FFF6D9;
+    color: #8A6A00;
+}
+
+.icon-hypnicjerk {
+    background: #EDE8FA;
+    color: #5A3EB8;
+}
+
+.tag-hypnicjerk {
+    background: #EDE8FA;
+    color: #5A3EB8;
+}
+
+.icon-hoarding {
+    background: #F4EDE2;
+    color: #7A5A2B;
+}
+
+.tag-hoarding {
+    background: #F4EDE2;
+    color: #7A5A2B;
+}
+
+.icon-dissonance {
+    background: #FDEBEB;
+    color: #B83A3A;
+}
+
+.tag-dissonance {
+    background: #FDEBEB;
+    color: #B83A3A;
+}
+
+.icon-bystander {
+    background: #E8F1FF;
+    color: #2B64C4;
+}
+
+.tag-bystander {
+    background: #E8F1FF;
+    color: #2B64C4;
+}
+
+.icon-zeigarnik {
+    background: #FFF3DC;
+    color: #A66A00;
+}
+
+.tag-zeigarnik {
+    background: #FFF3DC;
+    color: #A66A00;
+}
+
+.icon-introversion {
+    background: #EAF0F7;
+    color: #35607F;
+}
+
+.tag-introversion {
+    background: #EAF0F7;
+    color: #35607F;
+}
+
+.icon-innercritic {
+    background: #F5E9F6;
+    color: #8A3C94;
+}
+
+.tag-innercritic {
+    background: #F5E9F6;
+    color: #8A3C94;
+}
+
+.icon-envy {
+    background: #E6F6EC;
+    color: #2C7A4B;
+}
+
+.tag-envy {
+    background: #E6F6EC;
+    color: #2C7A4B;
+}
+
+.icon-flow {
+    background: #E2F5FB;
+    color: #0F7C9B;
+}
+
+.tag-flow {
+    background: #E2F5FB;
+    color: #0F7C9B;
+}
+
+.icon-hedonic {
+    background: #FFF0E0;
+    color: #B0600F;
+}
+
+.tag-hedonic {
+    background: #FFF0E0;
+    color: #B0600F;
+}
+
+.icon-sunkcost {
+    background: #EEEAF7;
+    color: #5A44A0;
+}
+
+.tag-sunkcost {
+    background: #EEEAF7;
+    color: #5A44A0;
+}
+
+.icon-placebo {
+    background: #FBEAF2;
+    color: #B03A72;
+}
+
+.tag-placebo {
+    background: #FBEAF2;
+    color: #B03A72;
+}
+
+.icon-uncanny {
+    background: #EBEDEF;
+    color: #4A525C;
+}
+
+.tag-uncanny {
+    background: #EBEDEF;
+    color: #4A525C;
+}
+
+.icon-socialjetlag {
+    background: #E7EAFB;
+    color: #3948B0;
+}
+
+.tag-socialjetlag {
+    background: #E7EAFB;
+    color: #3948B0;
+}
+
+.icon-shopping {
+    background: #FFE9F0;
+    color: #C0345F;
+}
+
+.tag-shopping {
+    background: #FFE9F0;
+    color: #C0345F;
+}
+
+.icon-sleepinertia {
+    background: #E8ECFB;
+    color: #364AA6;
+}
+
+.tag-sleepinertia {
+    background: #E8ECFB;
+    color: #364AA6;
+}
+
+.icon-anchoring {
+    background: #E4F1FA;
+    color: #1F6B9E;
+}
+
+.tag-anchoring {
+    background: #E4F1FA;
+    color: #1F6B9E;
+}
+
+.icon-pygmalion {
+    background: #FDEBE6;
+    color: #C04A2E;
+}
+
+.tag-pygmalion {
+    background: #FDEBE6;
+    color: #C04A2E;
+}
+
+.icon-rescuer {
+    background: #F4ECE0;
+    color: #8A5A1D;
+}
+
+.tag-rescuer {
+    background: #F4ECE0;
+    color: #8A5A1D;
+}
+
+.icon-ikea {
+    background: #FFF4D6;
+    color: #8E6B00;
+}
+
+.tag-ikea {
+    background: #FFF4D6;
+    color: #8E6B00;
+}
+
+.icon-halo {
+    background: #FFF8D1;
+    color: #8A7300;
+}
+
+.tag-halo {
+    background: #FFF8D1;
+    color: #8A7300;
+}
+
+.icon-forgetting {
+    background: #E7F0F4;
+    color: #2A6580;
+}
+
+.tag-forgetting {
+    background: #E7F0F4;
+    color: #2A6580;
+}
+
+.icon-loafing {
+    background: #EFEAF8;
+    color: #5B43A8;
+}
+
+.tag-loafing {
+    background: #EFEAF8;
+    color: #5B43A8;
+}
+
+.icon-mereexposure {
+    background: #EAF5E5;
+    color: #38762B;
+}
+
+.tag-mereexposure {
+    background: #EAF5E5;
+    color: #38762B;
+}
+
+.icon-identity {
+    background: #E9F4F1;
+    color: #1F7566;
+}
+
+.tag-identity {
+    background: #E9F4F1;
+    color: #1F7566;
+}
+
+.icon-infantamnesia {
+    background: #EEF0F3;
+    color: #4B5663;
+}
+
+.tag-infantamnesia {
+    background: #EEF0F3;
+    color: #4B5663;
+}
+
+.icon-paranoia {
+    background: #F1E9F8;
+    color: #7A3FA8;
+}
+
+.tag-paranoia {
+    background: #F1E9F8;
+    color: #7A3FA8;
+}
+
+.icon-pica {
+    background: #EFEAE0;
+    color: #7A6330;
+}
+
+.tag-pica {
+    background: #EFEAE0;
+    color: #7A6330;
+}
+
+.icon-dementia {
+    background: #E9EDF4;
+    color: #3F5A82;
+}
+
+.tag-dementia {
+    background: #E9EDF4;
+    color: #3F5A82;
+}
+
+.icon-alzheimer {
+    background: #F4E8EA;
+    color: #9B3F55;
+}
+
+.tag-alzheimer {
+    background: #F4E8EA;
+    color: #9B3F55;
+}
+
+.icon-cotard {
+    background: #ECECEC;
+    color: #4C4C58;
+}
+
+.tag-cotard {
+    background: #ECECEC;
+    color: #4C4C58;
+}
+
+.icon-prosopagnosia {
+    background: #E8F2F5;
+    color: #2C6A80;
+}
+
+.tag-prosopagnosia {
+    background: #E8F2F5;
+    color: #2C6A80;
+}
+
+.icon-alicewonder {
+    background: #FDEAF5;
+    color: #B03A8E;
+}
+
+.tag-alicewonder {
+    background: #FDEAF5;
+    color: #B03A8E;
+}
+
+.icon-lycanthropy {
+    background: #E8E9F3;
+    color: #3E4482;
+}
+
+.tag-lycanthropy {
+    background: #E8E9F3;
+    color: #3E4482;
+}
+
+.icon-alienhand {
+    background: #F8EEE2;
+    color: #9C6422;
+}
+
+.tag-alienhand {
+    background: #F8EEE2;
+    color: #9C6422;
+}
+
+.icon-doubles {
+    background: #EAEFFB;
+    color: #3A55B5;
+}
+
+.tag-doubles {
+    background: #EAEFFB;
+    color: #3A55B5;
+}
+
+.icon-presence {
+    background: #EEF0F6;
+    color: #58628A;
+}
+
+.tag-presence {
+    background: #EEF0F6;
+    color: #58628A;
+}
+
+.icon-confusional {
+    background: #E5ECFA;
+    color: #2F4DA6;
+}
+
+.tag-confusional {
+    background: #E5ECFA;
+    color: #2F4DA6;
+}
+
+.icon-kleinelevin {
+    background: #F0E8FA;
+    color: #6A3DB0;
+}
+
+.tag-kleinelevin {
+    background: #F0E8FA;
+    color: #6A3DB0;
+}
+
+.icon-ffi {
+    background: #EAEEF2;
+    color: #3D5468;
+}
+
+.tag-ffi {
+    background: #EAEEF2;
+    color: #3D5468;
+}
+
+.icon-ekbom {
+    background: #FBEEE6;
+    color: #B5532A;
+}
+
+.tag-ekbom {
+    background: #FBEEE6;
+    color: #B5532A;
+}
+
+.icon-urbach {
+    background: #E6F3EC;
+    color: #2D7A52;
+}
+
+.tag-urbach {
+    background: #E6F3EC;
+    color: #2D7A52;
+}
+
+.icon-akinetopsia {
+    background: #E4F4F7;
+    color: #1F7889;
+}
+
+.tag-akinetopsia {
+    background: #E4F4F7;
+    color: #1F7889;
+}
+
+.icon-savant {
+    background: #FFF4D9;
+    color: #9A6C00;
+}
+
+.tag-savant {
+    background: #FFF4D9;
+    color: #9A6C00;
+}
+
+.icon-survivor {
+    background: #F3ECF5;
+    color: #7A4A8C;
+}
+
+.tag-survivor {
+    background: #F3ECF5;
+    color: #7A4A8C;
+}
+
+.icon-sportplacebo {
+    background: #E5F6EE;
+    color: #1F7A55;
+}
+
+.tag-sportplacebo {
+    background: #E5F6EE;
+    color: #1F7A55;
+}
+
+.icon-lakewobegon {
+    background: #E9F0FB;
+    color: #2F5FA8;
+}
+
+.tag-lakewobegon {
+    background: #E9F0FB;
+    color: #2F5FA8;
+}
+
+.icon-stagefright {
+    background: #FDECEA;
+    color: #B8402E;
+}
+
+.tag-stagefright {
+    background: #FDECEA;
+    color: #B8402E;
+}
+
+.icon-detox {
+    background: #E3F5F1;
+    color: #1A7A66;
+}
+
+.tag-detox {
+    background: #E3F5F1;
+    color: #1A7A66;
+}
+
+.icon-watchman {
+    background: #EEEDF8;
+    color: #4B45A0;
+}
+
+.tag-watchman {
+    background: #EEEDF8;
+    color: #4B45A0;
+}
+
+.icon-streisand {
+    background: #FFEFE3;
+    color: #B85A12;
+}
+
+.tag-streisand {
+    background: #FFEFE3;
+    color: #B85A12;
+}
+
+.icon-laststraw {
+    background: #E6F1FA;
+    color: #2A6A9C;
+}
+
+.tag-laststraw {
+    background: #E6F1FA;
+    color: #2A6A9C;
+}
+
+.icon-fas {
+    background: #F6EAF2;
+    color: #9A3F7A;
+}
+
+.tag-fas {
+    background: #F6EAF2;
+    color: #9A3F7A;
+}
+
+.icon-lark {
+    background: #FFF6D6;
+    color: #9A7000;
+}
+
+.tag-lark {
+    background: #FFF6D6;
+    color: #9A7000;
+}
+
+.icon-illusions {
+    background: #EFE9FB;
+    color: #6642B8;
+}
+
+.tag-illusions {
+    background: #EFE9FB;
+    color: #6642B8;
+}
+
+.icon-pareidolia {
+    background: #E8F3E4;
+    color: #3F7A2E;
+}
+
+.tag-pareidolia {
+    background: #E8F3E4;
+    color: #3F7A2E;
+}
+
+.icon-toxic {
+    background: #EAF5DD;
+    color: #3C6A1B;
+}
+
+.tag-toxic {
+    background: #EAF5DD;
+    color: #3C6A1B;
+}
+
+.icon-toxparents {
+    background: #F6EAE2;
+    color: #8A4A2A;
+}
+
+.tag-toxparents {
+    background: #F6EAE2;
+    color: #8A4A2A;
+}
+
+.icon-infidelity {
+    background: #FBE9EE;
+    color: #A8324F;
+}
+
+.tag-infidelity {
+    background: #FBE9EE;
+    color: #A8324F;
+}
+
+.icon-divorce {
+    background: #EAEFF7;
+    color: #38568F;
+}
+
+.tag-divorce {
+    background: #EAEFF7;
+    color: #38568F;
+}
+
+.icon-breakup {
+    background: #F3E9F8;
+    color: #7B3F98;
+}
+
+.tag-breakup {
+    background: #F3E9F8;
+    color: #7B3F98;
+}
+
+.icon-humiliation {
+    background: #FFEFE0;
+    color: #A4531A;
+}
+
+.tag-humiliation {
+    background: #FFEFE0;
+    color: #A4531A;
+}
+
+.icon-insult {
+    background: #FDE8E4;
+    color: #A93A2B;
+}
+
+.tag-insult {
+    background: #FDE8E4;
+    color: #A93A2B;
+}
+
+.icon-crossing {
+    background: #E6F4F4;
+    color: #1F6E6E;
+}
+
+.tag-crossing {
+    background: #E6F4F4;
+    color: #1F6E6E;
+}
+
+.icon-aggression {
+    background: #FFE6E6;
+    color: #A32A2A;
+}
+
+.tag-aggression {
+    background: #FFE6E6;
+    color: #A32A2A;
+}
+
+.icon-jealousy {
+    background: #E6F5EA;
+    color: #2B7144;
+}
+
+.tag-jealousy {
+    background: #E6F5EA;
+    color: #2B7144;
+}
+
+.icon-passiveagg {
+    background: #EEEAF6;
+    color: #5B4A9A;
+}
+
+.tag-passiveagg {
+    background: #EEEAF6;
+    color: #5B4A9A;
+}
+
+.icon-silenttreat {
+    background: #EDF0F4;
+    color: #4A5668;
+}
+
+.tag-silenttreat {
+    background: #EDF0F4;
+    color: #4A5668;
+}
+
+.icon-emoblackmail {
+    background: #FFF1D9;
+    color: #8C5A00;
+}
+
+.tag-emoblackmail {
+    background: #FFF1D9;
+    color: #8C5A00;
+}
+
+.icon-resentment {
+    background: #F3ECE4;
+    color: #7A5232;
+}
+
+.tag-resentment {
+    background: #F3ECE4;
+    color: #7A5232;
+}
+
+.icon-overcontrol {
+    background: #E8EEF9;
+    color: #2F56A0;
+}
+
+.tag-overcontrol {
+    background: #E8EEF9;
+    color: #2F56A0;
+}
+
+.icon-manipulation {
+    background: #F2E9F3;
+    color: #8A3E8F;
+}
+
+.tag-manipulation {
+    background: #F2E9F3;
+    color: #8A3E8F;
+}
+
+.icon-stalking {
+    background: #E4EEF6;
+    color: #25547A;
+}
+
+.tag-stalking {
+    background: #E4EEF6;
+    color: #25547A;
+}
+
+.icon-psychopathy {
+    background: #ECEFF1;
+    color: #3E4E5A;
+}
+
+.tag-psychopathy {
+    background: #ECEFF1;
+    color: #3E4E5A;
+}
+
+.icon-doomscrolling {
+    background: #E6EAF8;
+    color: #34479A;
+}
+
+.tag-doomscrolling {
+    background: #E6EAF8;
+    color: #34479A;
+}
+
+.icon-hypocrisy {
+    background: #F5EEDF;
+    color: #7D5A12;
+}
+
+.tag-hypocrisy {
+    background: #F5EEDF;
+    color: #7D5A12;
+}
+
+.icon-hatred {
+    background: #F2E4E4;
+    color: #8B2E2E;
+}
+
+.tag-hatred {
+    background: #F2E4E4;
+    color: #8B2E2E;
+}
+
+.icon-ambivalence {
+    background: #E9E9FA;
+    color: #4A4AA8;
+}
+
+.tag-ambivalence {
+    background: #E9E9FA;
+    color: #4A4AA8;
+}
+
+.icon-ego {
+    background: #FFF0E3;
+    color: #9A4A12;
+}
+
+.tag-ego {
+    background: #FFF0E3;
+    color: #9A4A12;
+}
+
+.icon-thinking {
+    background: #E3F0FA;
+    color: #235E94;
+}
+
+.tag-thinking {
+    background: #E3F0FA;
+    color: #235E94;
+}
+
+.icon-sameagain {
+    background: #EFEFE6;
+    color: #5E5E2A;
+}
+
+.tag-sameagain {
+    background: #EFEFE6;
+    color: #5E5E2A;
+}
+
+.icon-meteo {
+    background: #E3F2FB;
+    color: #1D6A99;
+}
+
+.tag-meteo {
+    background: #E3F2FB;
+    color: #1D6A99;
+}
+
+.icon-subjage {
+    background: #FBE8EE;
+    color: #9A3A60;
+}
+
+.tag-subjage {
+    background: #FBE8EE;
+    color: #9A3A60;
+}
+
+.icon-pseudopreg {
+    background: #F1EEF9;
+    color: #6A52A8;
+}
+
+.tag-pseudopreg {
+    background: #F1EEF9;
+    color: #6A52A8;
+}
+
+.icon-bwthinking {
+    background: #EEEFF6;
+    color: #3B4480;
+}
+
+.tag-bwthinking {
+    background: #EEEFF6;
+    color: #3B4480;
+}
+
+.icon-aphantasia {
+    background: #EEF0F7;
+    color: #454F8A;
+}
+
+.tag-aphantasia {
+    background: #EEF0F7;
+    color: #454F8A;
+}
+
+.icon-synesthesia {
+    background: #FDEBF3;
+    color: #A12C66;
+}
+
+.tag-synesthesia {
+    background: #FDEBF3;
+    color: #A12C66;
+}
+
+.icon-lucid {
+    background: #EAEBFA;
+    color: #3F3FA8;
+}
+
+.tag-lucid {
+    background: #EAEBFA;
+    color: #3F3FA8;
+}
+
+.icon-survivorship {
+    background: #FFF3E0;
+    color: #9B5A00;
+}
+
+.tag-survivorship {
+    background: #FFF3E0;
+    color: #9B5A00;
+}
+
+.icon-framing {
+    background: #E6F6EC;
+    color: #2C7A4B;
+}
+
+.tag-framing {
+    background: #E6F6EC;
+    color: #2C7A4B;
+}
+
+.icon-empathy {
+    background: #FDEAEA;
+    color: #B13B3B;
+}
+
+.tag-empathy {
+    background: #FDEAEA;
+    color: #B13B3B;
+}
+
+.icon-neurodiv {
+    background: #E2F5FB;
+    color: #0F7C9B;
+}
+
+.tag-neurodiv {
+    background: #E2F5FB;
+    color: #0F7C9B;
+}
+
+.icon-hyperfocus {
+    background: #F1ECFB;
+    color: #5B3FB0;
+}
+
+.tag-hyperfocus {
+    background: #F1ECFB;
+    color: #5B3FB0;
+}
+
+.icon-capgras {
+    background: #F3E8FF;
+    color: #6B2FA3;
+}
+
+.tag-capgras {
+    background: #F3E8FF;
+    color: #6B2FA3;
+}
+
+.icon-jamaisvu {
+    background: #E6F0FF;
+    color: #2A5BB5;
+}
+
+.tag-jamaisvu {
+    background: #E6F0FF;
+    color: #2A5BB5;
+}
+
+.icon-warmglow {
+    background: #FFF1E0;
+    color: #B5560F;
+}
+
+.tag-warmglow {
+    background: #FFF1E0;
+    color: #B5560F;
+}
+
+.icon-lossaversion {
+    background: #FDEAEA;
+    color: #A33B3B;
+}
+
+.tag-lossaversion {
+    background: #FDEAEA;
+    color: #A33B3B;
+}
+
+.icon-cfs {
+    background: #E8F3EE;
+    color: #2F6B52;
+}
+
+.tag-cfs {
+    background: #E8F3EE;
+    color: #2F6B52;
+}
+
+.icon-decisionfatigue {
+    background: #F0EEE4;
+    color: #6B5F1F;
+}
+
+.tag-decisionfatigue {
+    background: #F0EEE4;
+    color: #6B5F1F;
+}
+
+.icon-hyperacusis {
+    background: #E6F6F8;
+    color: #16727F;
+}
+
+.tag-hyperacusis {
+    background: #E6F6F8;
+    color: #16727F;
+}
+
+.icon-gossip {
+    background: #FDECEF;
+    color: #B03A5B;
+}
+
+.tag-gossip {
+    background: #FDECEF;
+    color: #B03A5B;
+}
+
+.icon-slander {
+    background: #F3E8F6;
+    color: #7B3A8C;
+}
+
+.tag-slander {
+    background: #F3E8F6;
+    color: #7B3A8C;
+}
+
+.icon-aidep {
+    background: #E6F0FA;
+    color: #1F5E99;
+}
+
+.tag-aidep {
+    background: #E6F0FA;
+    color: #1F5E99;
+}
+
+.icon-doomscroll {
+    background: #EDEBFA;
+    color: #4B3FA3;
+}
+
+.tag-doomscroll {
+    background: #EDEBFA;
+    color: #4B3FA3;
+}
+
+.icon-teenage {
+    background: #E9F6EE;
+    color: #2E7D4F;
+}
+
+.tag-teenage {
+    background: #E9F6EE;
+    color: #2E7D4F;
+}
+
+.icon-arachno {
+    background: #F3EDE4;
+    color: #7A5530;
+}
+
+.tag-arachno {
+    background: #F3EDE4;
+    color: #7A5530;
+}
+
+.icon-claustro {
+    background: #E8EEF3;
+    color: #3A5568;
+}
+
+.tag-claustro {
+    background: #E8EEF3;
+    color: #3A5568;
+}
+
+.icon-aerophobia {
+    background: #E3F1FB;
+    color: #1D6FA3;
+}
+
+.tag-aerophobia {
+    background: #E3F1FB;
+    color: #1D6FA3;
+}
+
+.icon-bloodphobia {
+    background: #FBE9E7;
+    color: #B23A2E;
+}
+
+.tag-bloodphobia {
+    background: #FBE9E7;
+    color: #B23A2E;
+}
+
+.icon-pdisorders {
+    background: #F3EEFB;
+    color: #6A4AA8;
+}
+
+.tag-pdisorders {
+    background: #F3EEFB;
+    color: #6A4AA8;
+}
+
+.icon-defense {
+    background: #EAF4FB;
+    color: #2F6E9E;
+}
+
+.tag-defense {
+    background: #EAF4FB;
+    color: #2F6E9E;
+}
+
+.icon-maslow {
+    background: #FFF3E6;
+    color: #B05E12;
+}
+
+.tag-maslow {
+    background: #FFF3E6;
+    color: #B05E12;
+}
+
+.icon-misreading {
+    background: #EEF8F2;
+    color: #2F7D57;
+}
+
+.tag-misreading {
+    background: #EEF8F2;
+    color: #2F7D57;
+}
+
+.icon-workmem {
+    background: #E9F1FF;
+    color: #3558B0;
+}
+
+.tag-workmem {
+    background: #E9F1FF;
+    color: #3558B0;
+}
+
+.icon-mindwander {
+    background: #EDF6FA;
+    color: #3A7C94;
+}
+
+.tag-mindwander {
+    background: #EDF6FA;
+    color: #3A7C94;
+}
+
+.icon-confirmation {
+    background: #FDEFEF;
+    color: #B04444;
+}
+
+.tag-confirmation {
+    background: #FDEFEF;
+    color: #B04444;
+}
+
+.icon-falsememory {
+    background: #F6F0FF;
+    color: #7A4FB5;
+}
+
+.tag-falsememory {
+    background: #F6F0FF;
+    color: #7A4FB5;
+}
+
+.icon-sleepparalysis {
+    background: #EEF0FB;
+    color: #4B53A6;
+}
+
+.tag-sleepparalysis {
+    background: #EEF0FB;
+    color: #4B53A6;
+}
+
+.icon-midlife {
+    background: #FFF6E3;
+    color: #A67A12;
+}
+
+.tag-midlife {
+    background: #FFF6E3;
+    color: #A67A12;
+}
+
+.icon-acrophobia {
+    background: #E8F6FB;
+    color: #1F7A99;
+}
+
+.tag-acrophobia {
+    background: #E8F6FB;
+    color: #1F7A99;
+}
+
+.icon-nyctophobia {
+    background: #ECEBF8;
+    color: #46489A;
+}
+
+.tag-nyctophobia {
+    background: #ECEBF8;
+    color: #46489A;
+}
+
+.icon-cynophobia {
+    background: #FBF0E6;
+    color: #9A5A22;
+}
+
+.tag-cynophobia {
+    background: #FBF0E6;
+    color: #9A5A22;
+}
+
+.icon-technophobia {
+    background: #E8F5F3;
+    color: #1F7A6E;
+}
+
+.tag-technophobia {
+    background: #E8F5F3;
+    color: #1F7A6E;
+}
+
+.icon-maleloneliness {
+    background: #EAF0F8;
+    color: #3A5A8C;
+}
+
+.tag-maleloneliness {
+    background: #EAF0F8;
+    color: #3A5A8C;
+}
+
+.icon-youthfuture {
+    background: #FFF3E3;
+    color: #A8630F;
+}
+
+.tag-youthfuture {
+    background: #FFF3E3;
+    color: #A8630F;
+}
+
+.icon-norelations {
+    background: #F4EEF8;
+    color: #7A4C9A;
+}
+
+.tag-norelations {
+    background: #F4EEF8;
+    color: #7A4C9A;
+}
+
+.icon-datingtalk {
+    background: #FDEEF1;
+    color: #B23A5B;
+}
+
+.tag-datingtalk {
+    background: #FDEEF1;
+    color: #B23A5B;
+}
+
+.icon-maturity {
+    background: #EAF6EE;
+    color: #2E7A4D;
+}
+
+.tag-maturity {
+    background: #EAF6EE;
+    color: #2E7A4D;
+}
+
+.icon-tulpa {
+    background: #EEEDFA;
+    color: #5648B5;
+}
+
+.tag-tulpa {
+    background: #EEEDFA;
+    color: #5648B5;
+}
+
+.icon-quadrobics {
+    background: #FBF1E6;
+    color: #9B5A1C;
+}
+
+.tag-quadrobics {
+    background: #FBF1E6;
+    color: #9B5A1C;
+}
+
+.icon-doom {
+    background: #FDEEEE;
+    color: #B03A3A;
+}
+
+.tag-doom {
+    background: #FDEEEE;
+    color: #B03A3A;
+}
+
+.icon-emptiness {
+    background: #EEF1F4;
+    color: #546478;
+}
+
+.tag-emptiness {
+    background: #EEF1F4;
+    color: #546478;
+}
+
+.icon-entrapment {
+    background: #FDF1E7;
+    color: #A9561A;
+}
+
+.tag-entrapment {
+    background: #FDF1E7;
+    color: #A9561A;
+}
+
+.icon-existential {
+    background: #EAF1FB;
+    color: #2C5FA8;
+}
+
+.tag-existential {
+    background: #EAF1FB;
+    color: #2C5FA8;
+}
+
+.icon-lifechange {
+    background: #EAF6EE;
+    color: #2E7A4D;
+}
+
+.tag-lifechange {
+    background: #EAF6EE;
+    color: #2E7A4D;
+}
+
+.icon-lostcursed {
+    background: #F1EDFA;
+    color: #5B45A8;
+}
+
+.tag-lostcursed {
+    background: #F1EDFA;
+    color: #5B45A8;
+}
+
+.icon-selftalk {
+    background: #E9F6F5;
+    color: #14776F;
+}
+
+.tag-selftalk {
+    background: #E9F6F5;
+    color: #14776F;
+}

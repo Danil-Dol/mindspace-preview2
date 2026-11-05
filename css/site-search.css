@@ -1,0 +1,214 @@
+/* ══════════════════════════════════════════════════════════════
+   ПОИСК ПО САЙТУ (js/site-search.js)
+   Использует переменные цветов страницы (--brand, --text …),
+   а если их нет — запасные значения.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Кнопка-лупа в шапке ── */
+.ss-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text, #1D2733);
+    cursor: pointer;
+    transition: background .15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.ss-trigger svg { width: 20px; height: 20px; }
+.ss-trigger:hover { background: rgba(0, 122, 255, .10); }
+.ss-trigger:focus-visible { outline: 2px solid var(--brand, #007AFF); outline-offset: 2px; }
+.ss-trigger--page { margin-left: auto; }
+
+/* ── Затемнение и окно ── */
+.ss-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 9vh 16px 16px;
+    background: rgba(20, 28, 40, .45);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+.ss-overlay[hidden] { display: none; }
+
+.ss-dialog {
+    display: flex;
+    flex-direction: column;
+    width: min(660px, 100%);
+    max-height: min(78vh, 640px);
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--surface, #FFFFFF);
+    color: var(--text, #1D2733);
+    box-shadow: 0 24px 60px rgba(15, 25, 40, .28), 0 2px 8px rgba(15, 25, 40, .10);
+    animation: ss-pop .16s ease-out;
+}
+@keyframes ss-pop {
+    from { opacity: 0; transform: translateY(-8px) scale(.985); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ── Строка ввода ── */
+.ss-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px 12px 18px;
+    border-bottom: 1px solid var(--border, rgba(20, 28, 40, .08));
+}
+.ss-top-icon { display: inline-flex; color: var(--text-2, #445260); }
+.ss-top-icon svg { width: 20px; height: 20px; }
+
+.ss-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text, #1D2733);
+    font: inherit;
+    font-size: 16px;               /* 16px — чтобы iOS не приближал страницу при фокусе */
+    -webkit-appearance: none;
+    appearance: none;
+}
+.ss-input::placeholder { color: var(--text-2, #445260); opacity: .75; }
+.ss-input::-webkit-search-cancel-button,
+.ss-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+
+.ss-close {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--brand-btn, #0066CC);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.ss-close:hover { background: rgba(0, 122, 255, .08); }
+.ss-close:focus-visible { outline: 2px solid var(--brand, #007AFF); outline-offset: 1px; }
+
+/* ── Результаты ── */
+.ss-list {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    padding: 8px;
+    overflow-y: auto;
+    list-style: none;
+    overscroll-behavior: contain;
+}
+.ss-item { margin: 0; padding: 0; }
+
+.ss-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+}
+.ss-active .ss-link { background: rgba(0, 122, 255, .10); }
+
+.ss-badge {
+    flex: 0 0 auto;
+    min-width: 76px;
+    margin-top: 2px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #EEF1F5;
+    color: #33414F;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+}
+.ss-sec-settings { background: #E3EEFF; color: #003F7A; }
+.ss-sec-pages    { background: #EFE7FB; color: #6B46B0; }
+.ss-sec-wiki     { background: #E3F6EF; color: #00634A; }
+.ss-sec-tests    { background: #FFF1DB; color: #7A4200; }
+
+.ss-body { display: block; min-width: 0; }
+.ss-title {
+    display: block;
+    color: var(--text, #1D2733);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+.ss-crumb {
+    display: block;
+    margin-top: 1px;
+    color: var(--text-2, #445260);
+    font-size: 12.5px;
+}
+.ss-desc {
+    display: -webkit-box;
+    margin-top: 3px;
+    overflow: hidden;
+    color: var(--text-2, #445260);
+    font-size: 13px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* ── Статус и подсказки ── */
+.ss-status {
+    padding: 9px 18px;
+    border-top: 1px solid var(--border, rgba(20, 28, 40, .08));
+    color: var(--text-2, #445260);
+    font-size: 13px;
+    line-height: 1.4;
+}
+.ss-foot {
+    display: flex;
+    gap: 16px;
+    padding: 8px 18px 10px;
+    color: var(--text-2, #445260);
+    font-size: 12px;
+}
+.ss-foot kbd {
+    display: inline-block;
+    margin-right: 3px;
+    padding: 1px 6px;
+    border: 1px solid rgba(20, 28, 40, .18);
+    border-radius: 6px;
+    background: #F4F6F9;
+    font: inherit;
+    font-size: 11.5px;
+}
+
+/* ── Телефоны: окно на весь экран ── */
+@media (max-width: 640px) {
+    .ss-overlay { padding: 0; }
+    .ss-dialog {
+        width: 100%;
+        max-height: none;
+        height: 100%;
+        border-radius: 0;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .ss-foot { display: none; }
+    .ss-badge { min-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ss-dialog { animation: none; }
+    .ss-trigger { transition: none; }
+}

@@ -1,0 +1,66 @@
+/* ══════════════════════════════════════════════════════════════════
+   tooltip.css — кастомные подсказки при наведении (как в Claude)
+   ────────────────────────────────────────────────────────────────
+   Подключается вместе с js/tooltip.js. Сам элемент .ms-tooltip
+   создаётся скриптом при первом показе. Логика — в js/tooltip.js.
+
+   В режиме «Специальные возможности» (любой включённый режим панели)
+   скрипт ничего не делает, и эти стили не используются: остаются
+   стандартные браузерные подсказки по атрибуту title.
+   ══════════════════════════════════════════════════════════════════ */
+.ms-tooltip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2147483000;
+    width: max-content;
+    max-width: min(320px, calc(100vw - 16px));
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--text, #1D2733);
+    color: #fff;
+    font: 500 13px/1.35 var(--font, -apple-system, BlinkMacSystemFont, sans-serif);
+    letter-spacing: .01em;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    box-shadow: 0 6px 18px rgba(16, 24, 40, .22), inset 0 0 0 1px rgba(255, 255, 255, .07);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(3px);
+    transition: opacity .12s ease, transform .12s ease, visibility 0s linear .12s;
+}
+
+    .ms-tooltip[data-side="bottom"] { transform: translateY(-3px); }
+    .ms-tooltip[data-side="left"]   { transform: translateX(3px); }
+    .ms-tooltip[data-side="right"]  { transform: translateX(-3px); }
+
+    .ms-tooltip.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition-delay: 0s;
+    }
+
+/* Горячая клавиша, приглушённо, после текста («Скрыть меню  Ctrl+B») */
+.ms-tip-kbd {
+    margin-left: 10px;
+    color: rgba(255, 255, 255, .62);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ms-tooltip { transition: none; transform: none !important; }
+}
+
+/* Режим принудительных цветов Windows: подсказка остаётся читаемой */
+@media (forced-colors: active) {
+    .ms-tooltip {
+        background: Canvas;
+        color: CanvasText;
+        border: 1px solid CanvasText;
+        box-shadow: none;
+    }
+}

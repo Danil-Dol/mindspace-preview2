@@ -1,0 +1,541 @@
+/* ══════════════════════════════════════════════════════════════════
+   accessibility.css — режим для слабовидящих и слабослышащих
+   ────────────────────────────────────────────────────────────────
+   Подключается вместе с js/accessibility.js на каждой странице.
+   Использует те же CSS-переменные, что и остальной сайт
+   (--brand, --bg, --surface, --text, --text-2, --border, --font),
+   поэтому виджет выглядит нативно на любой странице без правок.
+   См. подробный разбор решений в js/accessibility.js — там же вся
+   логика; здесь только внешний вид.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Ссылка «Перейти к основному содержимому» ──────────────────── */
+.a11y-skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    z-index: 100000;
+    background: var(--text, #1D2733);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 0 0 12px 0;
+    font: 600 15px/1.4 var(--font, -apple-system, BlinkMacSystemFont, sans-serif);
+    text-decoration: none;
+}
+
+    .a11y-skip-link:focus {
+        left: 0;
+        top: 0;
+    }
+
+    /* атрибут hidden не должен перебиваться display из правил ниже */
+    .a11y-skip-link[hidden],
+    .a11y-fab[hidden] {
+        display: none;
+    }
+
+/* ── Плавающая кнопка вызова панели ─────────────────────────────── */
+/* Отступ снизу берётся из --a11y-fab-bottom, которую в рантайме
+   выставляет accessibility.js: по умолчанию 20px, но если на странице
+   есть закреплённая снизу панель (например .chat-input-bar в чате),
+   кнопка поднимается выше неё, чтобы не перекрывать поле ввода/
+   отправку сообщения. См. adjustFabPosition() в js/accessibility.js. */
+.a11y-fab {
+    position: fixed;
+    right: 20px;
+    bottom: calc(var(--a11y-fab-bottom, 20px) + env(safe-area-inset-bottom, 0px));
+    z-index: 99998;
+    transition: transform .15s ease, box-shadow .15s ease, bottom .18s ease;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    /* Круг с кольцом рисует сам SVG-значок (белый диск + кольцо и фигура
+       цвета currentColor), поэтому у кнопки фон прозрачный. */
+    background: transparent;
+    color: var(--brand, #007AFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(0, 122, 255, .35), 0 2px 6px rgba(20, 30, 45, .18);
+}
+
+    .a11y-fab:hover {
+        transform: scale(1.06);
+        box-shadow: 0 10px 28px rgba(0, 122, 255, .42), 0 2px 6px rgba(20, 30, 45, .2);
+    }
+
+    .a11y-fab:active {
+        transform: scale(.96);
+    }
+
+    .a11y-fab svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .a11y-fab:focus-visible {
+        outline: 3px solid #FFD400;
+        outline-offset: 3px;
+    }
+
+    /* индикатор «что-то из режимов включено» — маленькая точка на кнопке */
+    .a11y-fab.a11y-fab-active::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--mint, #00CC93);
+        border: 2px solid #fff;
+    }
+
+/* ── Панель настроек ─────────────────────────────────────────────── */
+.a11y-panel {
+    position: fixed;
+    right: 20px;
+    bottom: calc(var(--a11y-fab-bottom, 20px) + 64px + env(safe-area-inset-bottom, 0px));
+    z-index: 99999;
+    width: min(380px, calc(100vw - 32px));
+    max-height: min(640px, calc(100vh - var(--a11y-fab-bottom, 20px) - 96px));
+    transition: bottom .18s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--surface, #fff);
+    color: var(--text, #1D2733);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(20, 30, 45, .28), 0 2px 10px rgba(20, 30, 45, .12);
+    padding: 22px;
+    font: 400 15px/1.5 var(--font, -apple-system, BlinkMacSystemFont, sans-serif);
+    animation: a11y-panel-in .18s cubic-bezier(.32, .72, 0, 1);
+}
+
+    .a11y-panel[hidden] {
+        display: none;
+    }
+
+@keyframes a11y-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.a11y-panel h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    padding-right: 28px;
+}
+
+.a11y-panel .a11y-sub {
+    margin: 0 0 16px;
+    color: var(--text-2, #5A6B7B);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.a11y-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--text-2, #5A6B7B);
+    margin: 18px 0 4px;
+}
+
+    .a11y-section-title:first-of-type {
+        margin-top: 0;
+    }
+
+.a11y-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 0;
+    border-top: 1px solid var(--border, rgba(20, 30, 45, .08));
+}
+
+    .a11y-row:first-of-type,
+    .a11y-section-title + .a11y-row {
+        border-top: none;
+    }
+
+.a11y-row-text {
+    flex: 1;
+    min-width: 0;
+}
+
+    .a11y-row-text b {
+        display: block;
+        font-size: 14.5px;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .a11y-row-text span {
+        display: block;
+        font-size: 12.5px;
+        color: var(--text-2, #5A6B7B);
+        line-height: 1.4;
+    }
+
+/* ── Переключатель (в стиле ios-switch из settings.css) ───────────── */
+.a11y-switch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 26px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(90, 107, 123, .28);
+    cursor: pointer;
+    padding: 0;
+    transition: background .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+    .a11y-switch[aria-pressed="true"] {
+        background: var(--brand, #007AFF);
+    }
+
+    .a11y-switch::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 22px;
+        height: 22px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(20, 30, 45, .3);
+        transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .a11y-switch[aria-pressed="true"]::after {
+        transform: translateX(18px);
+    }
+
+    .a11y-switch:disabled {
+        opacity: .4;
+        cursor: default;
+    }
+
+    .a11y-switch:focus-visible {
+        outline: 3px solid #FFD400;
+        outline-offset: 2px;
+    }
+
+/* ── Степпер размера текста ────────────────────────────────────────── */
+.a11y-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+    .a11y-stepper button {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        border: 1px solid var(--border, rgba(20, 30, 45, .18));
+        background: var(--bg, #F7F9FC);
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text, #1D2733);
+        line-height: 1;
+    }
+
+        .a11y-stepper button:disabled {
+            opacity: .4;
+            cursor: default;
+        }
+
+        .a11y-stepper button:focus-visible {
+            outline: 3px solid #FFD400;
+            outline-offset: 2px;
+        }
+
+    .a11y-stepper span {
+        min-width: 30px;
+        text-align: center;
+        font-size: 13px;
+        font-variant-numeric: tabular-nums;
+        color: var(--text-2, #5A6B7B);
+    }
+
+/* ── Ряд с кнопками действий (чтение страницы / стоп / скорость) ──── */
+.a11y-actionrow {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+    .a11y-actionrow button {
+        flex: 1 1 auto;
+        min-width: 108px;
+        padding: 9px 8px;
+        border-radius: 10px;
+        border: 1px solid var(--border, rgba(20, 30, 45, .15));
+        background: var(--bg, #F7F9FC);
+        cursor: pointer;
+        font: 600 12.5px var(--font, sans-serif);
+        color: var(--text, #1D2733);
+    }
+
+        .a11y-actionrow button:disabled {
+            opacity: .45;
+            cursor: default;
+        }
+
+        .a11y-actionrow button:focus-visible {
+            outline: 3px solid #FFD400;
+            outline-offset: 2px;
+        }
+
+.a11y-rate-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--text-2, #5A6B7B);
+}
+
+    .a11y-rate-row input[type="range"] {
+        flex: 1;
+        accent-color: var(--brand, #007AFF);
+    }
+
+/* ── Сброс ────────────────────────────────────────────────────────── */
+.a11y-reset {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border, rgba(20, 30, 45, .15));
+    background: var(--surface, #fff);
+    cursor: pointer;
+    font: 600 14px var(--font, sans-serif);
+    color: var(--text-2, #5A6B7B);
+}
+
+    .a11y-reset:hover {
+        background: var(--bg, #F7F9FC);
+    }
+
+    .a11y-reset:focus-visible {
+        outline: 3px solid #FFD400;
+        outline-offset: 2px;
+    }
+
+/* ── Кнопка закрытия ──────────────────────────────────────────────── */
+.a11y-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg, #F7F9FC);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--text, #1D2733);
+}
+
+    .a11y-close:hover {
+        background: var(--border, rgba(20, 30, 45, .12));
+    }
+
+    .a11y-close:focus-visible {
+        outline: 3px solid #FFD400;
+        outline-offset: 2px;
+    }
+
+/* ── Скрытая live-область для анонсов screen reader'ам ──────────── */
+.a11y-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+    padding: 0;
+    margin: -1px;
+}
+
+@media (max-width: 480px) {
+    .a11y-fab {
+        right: 14px;
+        bottom: calc(var(--a11y-fab-bottom, 14px) + env(safe-area-inset-bottom, 0px));
+    }
+
+    .a11y-panel {
+        right: 8px;
+        left: 8px;
+        width: auto;
+        bottom: calc(var(--a11y-fab-bottom, 14px) + 58px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   РЕЖИМЫ, ВКЛЮЧАЕМЫЕ ЧЕРЕЗ <html class="a11y-...">
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Крупный текст ────────────────────────────────────────────────
+   Через CSS zoom, а не font-size: на сайте почти все размеры шрифта
+   заданы в px (а не rem/em), поэтому масштабирование через
+   font-size на body% не подействовало бы на большинство элементов —
+   именно из-за этого «прошлая реализация» и выглядела криво.
+   zoom масштабирует всю страницу целиком (включая отступы, кнопки,
+   иконки) пропорционально, как обычный zoom браузера, но при этом
+   (в отличие от transform: scale) не ломает position: fixed —
+   шапка, модалки и сама эта панель остаются на своих местах. */
+html.a11y-text-1 {
+    zoom: 1.15;
+}
+
+html.a11y-text-2 {
+    zoom: 1.3;
+}
+
+html.a11y-text-3 {
+    zoom: 1.45;
+}
+
+html.a11y-text-4 {
+    zoom: 1.6;
+}
+
+html[class*="a11y-text-"] a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ── Высокий контраст ─────────────────────────────────────────────
+   Базовое правило переводит всё в чёрный-по-белому, кроме самого
+   виджета (иначе панель управления контрастом станет нечитаемой,
+   если пользователь захочет её же и выключить). Затем — точечные
+   исключения там, где чистое чёрно-белое ломает смысл интерфейса:
+   пузыри сообщений (иначе не отличить свои от чужих) и фотографии
+   (пользователю нужно видеть, что на фото, а не плашку поверх). */
+html.a11y-contrast body {
+    background: #fff !important;
+}
+
+    html.a11y-contrast body :not(.a11y-fab):not(.a11y-fab *):not(.a11y-panel):not(.a11y-panel *) {
+        background-color: #fff !important;
+        color: #000 !important;
+        border-color: #000 !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+html.a11y-contrast img:not(.a11y-fab img),
+html.a11y-contrast video {
+    filter: contrast(1.12) saturate(1.05);
+}
+
+html.a11y-contrast a:not(.a11y-fab),
+html.a11y-contrast button:not(.a11y-fab):not(.a11y-switch):not(.a11y-close):not(.a11y-stepper button),
+html.a11y-contrast [role="button"] {
+    text-decoration: underline !important;
+    border: 2px solid #000 !important;
+}
+
+html.a11y-contrast .a11y-fab {
+    background: transparent !important;
+    color: #000 !important; /* кольцо и фигура чёрные на белом диске */
+    box-shadow: none !important;
+}
+
+/* свои сообщения — инвертированы (белым по чёрному), чтобы визуально
+   оставаться «своей стороной» переписки, как и в обычном режиме */
+html.a11y-contrast .msg-wrap.out .bubble {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 2px solid #000 !important;
+}
+
+html.a11y-contrast .msg-wrap.in .bubble {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 2px solid #000 !important;
+}
+
+/* ── Увеличенный курсор ───────────────────────────────────────────── */
+html.a11y-cursor,
+html.a11y-cursor * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M4 2 L4 20 L9 15.5 L12.2 21.8 L15 20.4 L11.8 14.2 L18 13.5 Z" fill="black" stroke="white" stroke-width="1.3" stroke-linejoin="round"/></svg>') 4 2, auto !important;
+}
+
+    html.a11y-cursor a,
+    html.a11y-cursor button,
+    html.a11y-cursor [role="button"],
+    html.a11y-cursor input,
+    html.a11y-cursor textarea,
+    html.a11y-cursor select {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M4 2 L4 20 L9 15.5 L12.2 21.8 L15 20.4 L11.8 14.2 L18 13.5 Z" fill="%23007AFF" stroke="white" stroke-width="1.3" stroke-linejoin="round"/></svg>') 4 2, pointer !important;
+    }
+
+/* ── Усиленный фокус для Tab-навигации ──────────────────────────── */
+html.a11y-focus *:focus {
+    outline: 3px solid #FF7A00 !important;
+    outline-offset: 3px !important;
+    border-radius: 2px;
+}
+
+html.a11y-focus a,
+html.a11y-focus button,
+html.a11y-focus [tabindex],
+html.a11y-focus input,
+html.a11y-focus select,
+html.a11y-focus textarea {
+    scroll-margin: 96px;
+}
+
+/* ── Индикатор, что сейчас читает голосовой ассистент ──────────────── */
+html.a11y-voice .a11y-speaking {
+    outline: 3px dashed var(--mint, #00CC93) !important;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ── Режим для слабослышащих: видимые подписи о звуке ─────────────── */
+html.a11y-hearing [data-a11y-sound] {
+    position: relative;
+}
+
+    html.a11y-hearing [data-a11y-sound]::after {
+        content: attr(data-a11y-sound);
+        margin-left: 6px;
+        padding: 2px 8px;
+        border-radius: 7px;
+        background: #FFD400;
+        color: #000;
+        font-size: 11px;
+        font-weight: 700;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+html.a11y-hearing video,
+html.a11y-hearing audio {
+    outline: 2px dashed #FF7A00;
+    outline-offset: 4px;
+}
